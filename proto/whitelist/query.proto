@@ -6,7 +6,9 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "whitelist/params.proto";
 import "whitelist/buyer_ids.proto";
+import "whitelist/buyers.proto";
 // this line is used by starport scaffolding # 1
+import "whitelist/buyer.proto";
 
 option go_package = "github.com/crow-labs/gamma/x/whitelist/types";
 
@@ -24,6 +26,16 @@ service Query {
 	// Queries a list of BuyerIds items.
 	rpc BuyerIdsAll(QueryAllBuyerIdsRequest) returns (QueryAllBuyerIdsResponse) {
 		option (google.api.http).get = "/crow-labs/gamma/whitelist/buyer_ids";
+	}
+
+// Queries a Buyers by index.
+	rpc Buyers(QueryGetBuyersRequest) returns (QueryGetBuyersResponse) {
+		option (google.api.http).get = "/crow-labs/gamma/whitelist/buyers/{buyerId}";
+	}
+
+	// Queries a list of Buyers items.
+	rpc BuyersAll(QueryAllBuyersRequest) returns (QueryAllBuyersResponse) {
+		option (google.api.http).get = "/crow-labs/gamma/whitelist/buyers";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -53,6 +65,24 @@ message QueryAllBuyerIdsRequest {
 
 message QueryAllBuyerIdsResponse {
 	repeated BuyerIds buyerIds = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetBuyersRequest {
+	  string buyerId = 1;
+
+}
+
+message QueryGetBuyersResponse {
+	Buyers buyers = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllBuyersRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllBuyersResponse {
+	repeated Buyers buyers = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

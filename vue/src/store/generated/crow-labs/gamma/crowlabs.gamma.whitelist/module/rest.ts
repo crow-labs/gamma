@@ -57,6 +57,13 @@ export interface V1Beta1PageRequest {
    * is set.
    */
   count_total?: boolean;
+
+  /**
+   * reverse is set to true if results are to be returned in the descending order.
+   *
+   * Since: cosmos-sdk 0.43
+   */
+  reverse?: boolean;
 }
 
 /**
@@ -76,17 +83,34 @@ export interface V1Beta1PageResponse {
   total?: string;
 }
 
+export interface WhitelistBuyer {
+  orderIds?: string[];
+  status?: string;
+}
+
 export interface WhitelistBuyerIds {
   accAddr?: string;
   buyerId?: string;
   creator?: string;
 }
 
+export interface WhitelistBuyers {
+  buyerId?: string;
+  buyer?: WhitelistBuyer;
+  creator?: string;
+}
+
 export type WhitelistMsgCreateBuyerIdsResponse = object;
+
+export type WhitelistMsgCreateBuyersResponse = object;
 
 export type WhitelistMsgDeleteBuyerIdsResponse = object;
 
+export type WhitelistMsgDeleteBuyersResponse = object;
+
 export type WhitelistMsgUpdateBuyerIdsResponse = object;
+
+export type WhitelistMsgUpdateBuyersResponse = object;
 
 /**
  * Params defines the parameters for the module.
@@ -108,8 +132,27 @@ export interface WhitelistQueryAllBuyerIdsResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface WhitelistQueryAllBuyersResponse {
+  buyers?: WhitelistBuyers[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface WhitelistQueryGetBuyerIdsResponse {
   buyerIds?: WhitelistBuyerIds;
+}
+
+export interface WhitelistQueryGetBuyersResponse {
+  buyers?: WhitelistBuyers;
 }
 
 /**
@@ -312,7 +355,7 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title whitelist/buyer_ids.proto
+ * @title whitelist/buyer.proto
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
@@ -330,6 +373,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -352,6 +396,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryBuyerIds = (accAddr: string, params: RequestParams = {}) =>
     this.request<WhitelistQueryGetBuyerIdsResponse, RpcStatus>({
       path: `/crow-labs/gamma/whitelist/buyer_ids/${accAddr}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryBuyersAll
+   * @summary Queries a list of Buyers items.
+   * @request GET:/crow-labs/gamma/whitelist/buyers
+   */
+  queryBuyersAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<WhitelistQueryAllBuyersResponse, RpcStatus>({
+      path: `/crow-labs/gamma/whitelist/buyers`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryBuyers
+   * @summary Queries a Buyers by index.
+   * @request GET:/crow-labs/gamma/whitelist/buyers/{buyerId}
+   */
+  queryBuyers = (buyerId: string, params: RequestParams = {}) =>
+    this.request<WhitelistQueryGetBuyersResponse, RpcStatus>({
+      path: `/crow-labs/gamma/whitelist/buyers/${buyerId}`,
       method: "GET",
       format: "json",
       ...params,

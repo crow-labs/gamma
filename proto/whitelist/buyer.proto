@@ -1,0 +1,10 @@
+syntax = "proto3";
+package crowlabs.gamma.whitelist;
+
+option go_package = "github.com/crow-labs/gamma/x/whitelist/types";
+
+message Buyer {
+  
+  repeated string orderIds = 1; 
+  string status = 2; 
+}

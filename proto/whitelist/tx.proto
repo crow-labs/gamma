@@ -2,7 +2,9 @@ syntax = "proto3";
 package crowlabs.gamma.whitelist;
 
 import "whitelist/buyer_ids.proto";
+import "whitelist/buyers.proto";
 // this line is used by starport scaffolding # proto/tx/import
+import "whitelist/buyer.proto";
 
 option go_package = "github.com/crow-labs/gamma/x/whitelist/types";
 
@@ -11,6 +13,9 @@ service Msg {
       rpc CreateBuyerIds(MsgCreateBuyerIds) returns (MsgCreateBuyerIdsResponse);
   rpc UpdateBuyerIds(MsgUpdateBuyerIds) returns (MsgUpdateBuyerIdsResponse);
   rpc DeleteBuyerIds(MsgDeleteBuyerIds) returns (MsgDeleteBuyerIdsResponse);
+  rpc CreateBuyers(MsgCreateBuyers) returns (MsgCreateBuyersResponse);
+  rpc UpdateBuyers(MsgUpdateBuyers) returns (MsgUpdateBuyersResponse);
+  rpc DeleteBuyers(MsgDeleteBuyers) returns (MsgDeleteBuyersResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -35,5 +40,27 @@ message MsgDeleteBuyerIds {
   string accAddr = 2;
 }
 message MsgDeleteBuyerIdsResponse {}
+
+message MsgCreateBuyers {
+  string creator = 1;
+  string buyerId = 2;
+
+  Buyer buyer = 3;
+}
+message MsgCreateBuyersResponse {}
+
+message MsgUpdateBuyers {
+  string creator = 1;
+  string buyerId = 2;
+
+  Buyer buyer = 3;
+}
+message MsgUpdateBuyersResponse {}
+
+message MsgDeleteBuyers {
+  string creator = 1;
+  string buyerId = 2;
+}
+message MsgDeleteBuyersResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message

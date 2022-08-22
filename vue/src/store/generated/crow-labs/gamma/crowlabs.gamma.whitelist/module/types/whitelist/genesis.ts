@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { Params } from "../whitelist/params";
 import { BuyerIds } from "../whitelist/buyer_ids";
+import { Buyers } from "../whitelist/buyers";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "crowlabs.gamma.whitelist";
@@ -8,8 +9,9 @@ export const protobufPackage = "crowlabs.gamma.whitelist";
 /** GenesisState defines the whitelist module's genesis state. */
 export interface GenesisState {
   params: Params | undefined;
-  /** this line is used by starport scaffolding # genesis/proto/state */
   buyerIdsList: BuyerIds[];
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  buyersList: Buyers[];
 }
 
 const baseGenesisState: object = {};
@@ -22,6 +24,9 @@ export const GenesisState = {
     for (const v of message.buyerIdsList) {
       BuyerIds.encode(v!, writer.uint32(18).fork()).ldelim();
     }
+    for (const v of message.buyersList) {
+      Buyers.encode(v!, writer.uint32(26).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -30,6 +35,7 @@ export const GenesisState = {
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseGenesisState } as GenesisState;
     message.buyerIdsList = [];
+    message.buyersList = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -38,6 +44,9 @@ export const GenesisState = {
           break;
         case 2:
           message.buyerIdsList.push(BuyerIds.decode(reader, reader.uint32()));
+          break;
+        case 3:
+          message.buyersList.push(Buyers.decode(reader, reader.uint32()));
           break;
         default:
           reader.skipType(tag & 7);
@@ -50,6 +59,7 @@ export const GenesisState = {
   fromJSON(object: any): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
     message.buyerIdsList = [];
+    message.buyersList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromJSON(object.params);
     } else {
@@ -58,6 +68,11 @@ export const GenesisState = {
     if (object.buyerIdsList !== undefined && object.buyerIdsList !== null) {
       for (const e of object.buyerIdsList) {
         message.buyerIdsList.push(BuyerIds.fromJSON(e));
+      }
+    }
+    if (object.buyersList !== undefined && object.buyersList !== null) {
+      for (const e of object.buyersList) {
+        message.buyersList.push(Buyers.fromJSON(e));
       }
     }
     return message;
@@ -74,12 +89,20 @@ export const GenesisState = {
     } else {
       obj.buyerIdsList = [];
     }
+    if (message.buyersList) {
+      obj.buyersList = message.buyersList.map((e) =>
+        e ? Buyers.toJSON(e) : undefined
+      );
+    } else {
+      obj.buyersList = [];
+    }
     return obj;
   },
 
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
     message.buyerIdsList = [];
+    message.buyersList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
     } else {
@@ -88,6 +111,11 @@ export const GenesisState = {
     if (object.buyerIdsList !== undefined && object.buyerIdsList !== null) {
       for (const e of object.buyerIdsList) {
         message.buyerIdsList.push(BuyerIds.fromPartial(e));
+      }
+    }
+    if (object.buyersList !== undefined && object.buyersList !== null) {
+      for (const e of object.buyersList) {
+        message.buyersList.push(Buyers.fromPartial(e));
       }
     }
     return message;
