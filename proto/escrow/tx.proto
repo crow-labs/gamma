@@ -1,13 +1,58 @@
 syntax = "proto3";
 package crowlabs.gamma.escrow;
 
+import "escrow/crow.proto";
 // this line is used by starport scaffolding # proto/tx/import
+import "cosmos/base/v1beta1/coin.proto";
+import "gogoproto/gogo.proto";
 
 option go_package = "github.com/crow-labs/gamma/x/escrow/types";
 
 // Msg defines the Msg service.
 service Msg {
-    // this line is used by starport scaffolding # proto/tx/rpc
+      rpc CreateCrow(MsgCreateCrow) returns (MsgCreateCrowResponse);
+  rpc UpdateCrow(MsgUpdateCrow) returns (MsgUpdateCrowResponse);
+  rpc DeleteCrow(MsgDeleteCrow) returns (MsgDeleteCrowResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
 }
+
+message MsgCreateCrow {
+  string creator = 1;
+  string listingId = 2;
+  string orderId = 3;
+
+  string buyerId = 4;
+  string sellerId = 5;
+  repeated cosmos.base.v1beta1.Coin buyerCollateral = 6 [(gogoproto.nullable) = false];
+  repeated cosmos.base.v1beta1.Coin sellerCollateral = 7 [(gogoproto.nullable) = false];
+  repeated cosmos.base.v1beta1.Coin buyerFunds = 8 [(gogoproto.nullable) = false];
+  string status = 9;
+  repeated string timeout = 10;
+  string disputeId = 11;
+}
+message MsgCreateCrowResponse {}
+
+message MsgUpdateCrow {
+  string creator = 1;
+  string listingId = 2;
+  string orderId = 3;
+
+  string buyerId = 4;
+  string sellerId = 5;
+  repeated cosmos.base.v1beta1.Coin buyerCollateral = 6 [(gogoproto.nullable) = false];
+  repeated cosmos.base.v1beta1.Coin sellerCollateral = 7 [(gogoproto.nullable) = false];
+  repeated cosmos.base.v1beta1.Coin buyerFunds = 8 [(gogoproto.nullable) = false];
+  string status = 9;
+  repeated string timeout = 10;
+  string disputeId = 11;
+}
+message MsgUpdateCrowResponse {}
+
+message MsgDeleteCrow {
+  string creator = 1;
+  string listingId = 2;
+  string orderId = 3;
+}
+message MsgDeleteCrowResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message

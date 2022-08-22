@@ -4,9 +4,15 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
+import { MsgDeleteCrow } from "./types/escrow/tx";
+import { MsgCreateCrow } from "./types/escrow/tx";
+import { MsgUpdateCrow } from "./types/escrow/tx";
 
 
 const types = [
+  ["/crowlabs.gamma.escrow.MsgDeleteCrow", MsgDeleteCrow],
+  ["/crowlabs.gamma.escrow.MsgCreateCrow", MsgCreateCrow],
+  ["/crowlabs.gamma.escrow.MsgUpdateCrow", MsgUpdateCrow],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -39,6 +45,9 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
+    msgDeleteCrow: (data: MsgDeleteCrow): EncodeObject => ({ typeUrl: "/crowlabs.gamma.escrow.MsgDeleteCrow", value: MsgDeleteCrow.fromPartial( data ) }),
+    msgCreateCrow: (data: MsgCreateCrow): EncodeObject => ({ typeUrl: "/crowlabs.gamma.escrow.MsgCreateCrow", value: MsgCreateCrow.fromPartial( data ) }),
+    msgUpdateCrow: (data: MsgUpdateCrow): EncodeObject => ({ typeUrl: "/crowlabs.gamma.escrow.MsgUpdateCrow", value: MsgUpdateCrow.fromPartial( data ) }),
     
   };
 };

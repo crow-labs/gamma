@@ -1,6 +1,11 @@
 /* eslint-disable */
 import { Reader, Writer } from "protobufjs/minimal";
 import { Params } from "../escrow/params";
+import { Crow } from "../escrow/crow";
+import {
+  PageRequest,
+  PageResponse,
+} from "../cosmos/base/query/v1beta1/pagination";
 
 export const protobufPackage = "crowlabs.gamma.escrow";
 
@@ -11,6 +16,24 @@ export interface QueryParamsRequest {}
 export interface QueryParamsResponse {
   /** params holds all the parameters of this module. */
   params: Params | undefined;
+}
+
+export interface QueryGetCrowRequest {
+  listingId: string;
+  orderId: string;
+}
+
+export interface QueryGetCrowResponse {
+  crow: Crow | undefined;
+}
+
+export interface QueryAllCrowRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllCrowResponse {
+  crow: Crow[];
+  pagination: PageResponse | undefined;
 }
 
 const baseQueryParamsRequest: object = {};
@@ -110,10 +133,297 @@ export const QueryParamsResponse = {
   },
 };
 
+const baseQueryGetCrowRequest: object = { listingId: "", orderId: "" };
+
+export const QueryGetCrowRequest = {
+  encode(
+    message: QueryGetCrowRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.listingId !== "") {
+      writer.uint32(10).string(message.listingId);
+    }
+    if (message.orderId !== "") {
+      writer.uint32(18).string(message.orderId);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetCrowRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGetCrowRequest } as QueryGetCrowRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.listingId = reader.string();
+          break;
+        case 2:
+          message.orderId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetCrowRequest {
+    const message = { ...baseQueryGetCrowRequest } as QueryGetCrowRequest;
+    if (object.listingId !== undefined && object.listingId !== null) {
+      message.listingId = String(object.listingId);
+    } else {
+      message.listingId = "";
+    }
+    if (object.orderId !== undefined && object.orderId !== null) {
+      message.orderId = String(object.orderId);
+    } else {
+      message.orderId = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetCrowRequest): unknown {
+    const obj: any = {};
+    message.listingId !== undefined && (obj.listingId = message.listingId);
+    message.orderId !== undefined && (obj.orderId = message.orderId);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryGetCrowRequest>): QueryGetCrowRequest {
+    const message = { ...baseQueryGetCrowRequest } as QueryGetCrowRequest;
+    if (object.listingId !== undefined && object.listingId !== null) {
+      message.listingId = object.listingId;
+    } else {
+      message.listingId = "";
+    }
+    if (object.orderId !== undefined && object.orderId !== null) {
+      message.orderId = object.orderId;
+    } else {
+      message.orderId = "";
+    }
+    return message;
+  },
+};
+
+const baseQueryGetCrowResponse: object = {};
+
+export const QueryGetCrowResponse = {
+  encode(
+    message: QueryGetCrowResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.crow !== undefined) {
+      Crow.encode(message.crow, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetCrowResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGetCrowResponse } as QueryGetCrowResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.crow = Crow.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetCrowResponse {
+    const message = { ...baseQueryGetCrowResponse } as QueryGetCrowResponse;
+    if (object.crow !== undefined && object.crow !== null) {
+      message.crow = Crow.fromJSON(object.crow);
+    } else {
+      message.crow = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetCrowResponse): unknown {
+    const obj: any = {};
+    message.crow !== undefined &&
+      (obj.crow = message.crow ? Crow.toJSON(message.crow) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryGetCrowResponse>): QueryGetCrowResponse {
+    const message = { ...baseQueryGetCrowResponse } as QueryGetCrowResponse;
+    if (object.crow !== undefined && object.crow !== null) {
+      message.crow = Crow.fromPartial(object.crow);
+    } else {
+      message.crow = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllCrowRequest: object = {};
+
+export const QueryAllCrowRequest = {
+  encode(
+    message: QueryAllCrowRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllCrowRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllCrowRequest } as QueryAllCrowRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllCrowRequest {
+    const message = { ...baseQueryAllCrowRequest } as QueryAllCrowRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllCrowRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryAllCrowRequest>): QueryAllCrowRequest {
+    const message = { ...baseQueryAllCrowRequest } as QueryAllCrowRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllCrowResponse: object = {};
+
+export const QueryAllCrowResponse = {
+  encode(
+    message: QueryAllCrowResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.crow) {
+      Crow.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllCrowResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllCrowResponse } as QueryAllCrowResponse;
+    message.crow = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.crow.push(Crow.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllCrowResponse {
+    const message = { ...baseQueryAllCrowResponse } as QueryAllCrowResponse;
+    message.crow = [];
+    if (object.crow !== undefined && object.crow !== null) {
+      for (const e of object.crow) {
+        message.crow.push(Crow.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllCrowResponse): unknown {
+    const obj: any = {};
+    if (message.crow) {
+      obj.crow = message.crow.map((e) => (e ? Crow.toJSON(e) : undefined));
+    } else {
+      obj.crow = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryAllCrowResponse>): QueryAllCrowResponse {
+    const message = { ...baseQueryAllCrowResponse } as QueryAllCrowResponse;
+    message.crow = [];
+    if (object.crow !== undefined && object.crow !== null) {
+      for (const e of object.crow) {
+        message.crow.push(Crow.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
+  /** Queries a Crow by index. */
+  Crow(request: QueryGetCrowRequest): Promise<QueryGetCrowResponse>;
+  /** Queries a list of Crow items. */
+  CrowAll(request: QueryAllCrowRequest): Promise<QueryAllCrowResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -129,6 +439,30 @@ export class QueryClientImpl implements Query {
       data
     );
     return promise.then((data) => QueryParamsResponse.decode(new Reader(data)));
+  }
+
+  Crow(request: QueryGetCrowRequest): Promise<QueryGetCrowResponse> {
+    const data = QueryGetCrowRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.escrow.Query",
+      "Crow",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetCrowResponse.decode(new Reader(data))
+    );
+  }
+
+  CrowAll(request: QueryAllCrowRequest): Promise<QueryAllCrowResponse> {
+    const data = QueryAllCrowRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.escrow.Query",
+      "CrowAll",
+      data
+    );
+    return promise.then((data) =>
+      QueryAllCrowResponse.decode(new Reader(data))
+    );
   }
 }
 

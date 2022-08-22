@@ -1,0 +1,21 @@
+syntax = "proto3";
+package crowlabs.gamma.escrow;
+
+option go_package = "github.com/crow-labs/gamma/x/escrow/types";
+import "gogoproto/gogo.proto"; 
+import "cosmos/base/v1beta1/coin.proto"; 
+
+message Crow {
+  string listingId = 1; 
+  string orderId = 2; 
+  string buyerId = 3; 
+  string sellerId = 4; 
+  repeated cosmos.base.v1beta1.Coin buyerCollateral = 5 [(gogoproto.nullable) = false]; 
+  repeated cosmos.base.v1beta1.Coin sellerCollateral = 6 [(gogoproto.nullable) = false]; 
+  repeated cosmos.base.v1beta1.Coin buyerFunds = 7 [(gogoproto.nullable) = false]; 
+  string status = 8; 
+  repeated string timeout = 9; 
+  string disputeId = 10; 
+  string creator = 11;
+}
+

@@ -22,9 +22,35 @@ func TestGenesisState_Validate(t *testing.T) {
 			desc: "valid genesis state",
 			genState: &types.GenesisState{
 				PortId: types.PortID,
+				CrowList: []types.Crow{
+					{
+						ListingId: "0",
+						OrderId:   "0",
+					},
+					{
+						ListingId: "1",
+						OrderId:   "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
+		},
+		{
+			desc: "duplicated crow",
+			genState: &types.GenesisState{
+				CrowList: []types.Crow{
+					{
+						ListingId: "0",
+						OrderId:   "0",
+					},
+					{
+						ListingId: "0",
+						OrderId:   "0",
+					},
+				},
+			},
+			valid: false,
 		},
 		// this line is used by starport scaffolding # types/genesis/testcase
 	} {
