@@ -11,9 +11,10 @@ const DefaultIndex uint64 = 1
 // DefaultGenesis returns the default Capability genesis state
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
-		PortId:   PortID,
-		CrowList: []Crow{},
-		VoteList: []Vote{},
+		PortId:      PortID,
+		CrowList:    []Crow{},
+		VoteList:    []Vote{},
+		DisputeList: []Dispute{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -44,6 +45,16 @@ func (gs GenesisState) Validate() error {
 			return fmt.Errorf("duplicated index for vote")
 		}
 		voteIndexMap[index] = struct{}{}
+	}
+	// Check for duplicated index in dispute
+	disputeIndexMap := make(map[string]struct{})
+
+	for _, elem := range gs.DisputeList {
+		index := string(DisputeKey(elem.CrowId))
+		if _, ok := disputeIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for dispute")
+		}
+		disputeIndexMap[index] = struct{}{}
 	}
 	// this line is used by starport scaffolding # genesis/types/validate
 

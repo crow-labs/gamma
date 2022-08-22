@@ -21,17 +21,33 @@ export interface EscrowCrow {
   timeout?: string[];
   disputeId?: string;
   creator?: string;
+  crowId?: string;
+}
+
+export interface EscrowDispute {
+  crowId?: string;
+  disputeId?: string;
+  title?: string;
+  description?: string;
+  evidence?: string;
+  creator?: string;
 }
 
 export type EscrowMsgCreateCrowResponse = object;
+
+export type EscrowMsgCreateDisputeResponse = object;
 
 export type EscrowMsgCreateVoteResponse = object;
 
 export type EscrowMsgDeleteCrowResponse = object;
 
+export type EscrowMsgDeleteDisputeResponse = object;
+
 export type EscrowMsgDeleteVoteResponse = object;
 
 export type EscrowMsgUpdateCrowResponse = object;
+
+export type EscrowMsgUpdateDisputeResponse = object;
 
 export type EscrowMsgUpdateVoteResponse = object;
 
@@ -42,6 +58,21 @@ export type EscrowParams = object;
 
 export interface EscrowQueryAllCrowResponse {
   crow?: EscrowCrow[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
+export interface EscrowQueryAllDisputeResponse {
+  dispute?: EscrowDispute[];
 
   /**
    * PageResponse is to be embedded in gRPC response messages where the
@@ -72,6 +103,10 @@ export interface EscrowQueryAllVoteResponse {
 
 export interface EscrowQueryGetCrowResponse {
   crow?: EscrowCrow;
+}
+
+export interface EscrowQueryGetDisputeResponse {
+  dispute?: EscrowDispute;
 }
 
 export interface EscrowQueryGetVoteResponse {
@@ -158,6 +193,13 @@ export interface V1Beta1PageRequest {
    * is set.
    */
   count_total?: boolean;
+
+  /**
+   * reverse is set to true if results are to be returned in the descending order.
+   *
+   * Since: cosmos-sdk 0.43
+   */
+  reverse?: boolean;
 }
 
 /**
@@ -387,6 +429,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -409,6 +452,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryCrow = (listingId: string, orderId: string, params: RequestParams = {}) =>
     this.request<EscrowQueryGetCrowResponse, RpcStatus>({
       path: `/crow-labs/gamma/escrow/crow/${listingId}/${orderId}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryDisputeAll
+   * @summary Queries a list of Dispute items.
+   * @request GET:/crow-labs/gamma/escrow/dispute
+   */
+  queryDisputeAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<EscrowQueryAllDisputeResponse, RpcStatus>({
+      path: `/crow-labs/gamma/escrow/dispute`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryDispute
+   * @summary Queries a Dispute by index.
+   * @request GET:/crow-labs/gamma/escrow/dispute/{crowId}
+   */
+  queryDispute = (crowId: string, params: RequestParams = {}) =>
+    this.request<EscrowQueryGetDisputeResponse, RpcStatus>({
+      path: `/crow-labs/gamma/escrow/dispute/${crowId}`,
       method: "GET",
       format: "json",
       ...params,
@@ -444,6 +529,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>

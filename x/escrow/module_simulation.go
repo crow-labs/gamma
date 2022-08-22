@@ -48,6 +48,18 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgDeleteVote int = 100
 
+	opWeightMsgCreateDispute = "op_weight_msg_dispute"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgCreateDispute int = 100
+
+	opWeightMsgUpdateDispute = "op_weight_msg_dispute"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgUpdateDispute int = 100
+
+	opWeightMsgDeleteDispute = "op_weight_msg_dispute"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgDeleteDispute int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -82,6 +94,16 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 				Creator:   sample.AccAddress(),
 				VoterId:   "1",
 				DisputeId: "1",
+			},
+		},
+		DisputeList: []types.Dispute{
+			{
+				Creator: sample.AccAddress(),
+				CrowId:  "0",
+			},
+			{
+				Creator: sample.AccAddress(),
+				CrowId:  "1",
 			},
 		},
 		// this line is used by starport scaffolding # simapp/module/genesisState
@@ -171,6 +193,39 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgDeleteVote,
 		escrowsimulation.SimulateMsgDeleteVote(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgCreateDispute int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgCreateDispute, &weightMsgCreateDispute, nil,
+		func(_ *rand.Rand) {
+			weightMsgCreateDispute = defaultWeightMsgCreateDispute
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgCreateDispute,
+		escrowsimulation.SimulateMsgCreateDispute(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgUpdateDispute int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgUpdateDispute, &weightMsgUpdateDispute, nil,
+		func(_ *rand.Rand) {
+			weightMsgUpdateDispute = defaultWeightMsgUpdateDispute
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgUpdateDispute,
+		escrowsimulation.SimulateMsgUpdateDispute(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgDeleteDispute int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgDeleteDispute, &weightMsgDeleteDispute, nil,
+		func(_ *rand.Rand) {
+			weightMsgDeleteDispute = defaultWeightMsgDeleteDispute
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgDeleteDispute,
+		escrowsimulation.SimulateMsgDeleteDispute(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation

@@ -7,6 +7,7 @@ import {
   PageResponse,
 } from "../cosmos/base/query/v1beta1/pagination";
 import { Vote } from "../escrow/vote";
+import { Dispute } from "../escrow/dispute";
 
 export const protobufPackage = "crowlabs.gamma.escrow";
 
@@ -52,6 +53,23 @@ export interface QueryAllVoteRequest {
 
 export interface QueryAllVoteResponse {
   vote: Vote[];
+  pagination: PageResponse | undefined;
+}
+
+export interface QueryGetDisputeRequest {
+  crowId: string;
+}
+
+export interface QueryGetDisputeResponse {
+  dispute: Dispute | undefined;
+}
+
+export interface QueryAllDisputeRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllDisputeResponse {
+  dispute: Dispute[];
   pagination: PageResponse | undefined;
 }
 
@@ -718,6 +736,296 @@ export const QueryAllVoteResponse = {
   },
 };
 
+const baseQueryGetDisputeRequest: object = { crowId: "" };
+
+export const QueryGetDisputeRequest = {
+  encode(
+    message: QueryGetDisputeRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.crowId !== "") {
+      writer.uint32(10).string(message.crowId);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetDisputeRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGetDisputeRequest } as QueryGetDisputeRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.crowId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetDisputeRequest {
+    const message = { ...baseQueryGetDisputeRequest } as QueryGetDisputeRequest;
+    if (object.crowId !== undefined && object.crowId !== null) {
+      message.crowId = String(object.crowId);
+    } else {
+      message.crowId = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetDisputeRequest): unknown {
+    const obj: any = {};
+    message.crowId !== undefined && (obj.crowId = message.crowId);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetDisputeRequest>
+  ): QueryGetDisputeRequest {
+    const message = { ...baseQueryGetDisputeRequest } as QueryGetDisputeRequest;
+    if (object.crowId !== undefined && object.crowId !== null) {
+      message.crowId = object.crowId;
+    } else {
+      message.crowId = "";
+    }
+    return message;
+  },
+};
+
+const baseQueryGetDisputeResponse: object = {};
+
+export const QueryGetDisputeResponse = {
+  encode(
+    message: QueryGetDisputeResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.dispute !== undefined) {
+      Dispute.encode(message.dispute, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetDisputeResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetDisputeResponse,
+    } as QueryGetDisputeResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.dispute = Dispute.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetDisputeResponse {
+    const message = {
+      ...baseQueryGetDisputeResponse,
+    } as QueryGetDisputeResponse;
+    if (object.dispute !== undefined && object.dispute !== null) {
+      message.dispute = Dispute.fromJSON(object.dispute);
+    } else {
+      message.dispute = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetDisputeResponse): unknown {
+    const obj: any = {};
+    message.dispute !== undefined &&
+      (obj.dispute = message.dispute
+        ? Dispute.toJSON(message.dispute)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetDisputeResponse>
+  ): QueryGetDisputeResponse {
+    const message = {
+      ...baseQueryGetDisputeResponse,
+    } as QueryGetDisputeResponse;
+    if (object.dispute !== undefined && object.dispute !== null) {
+      message.dispute = Dispute.fromPartial(object.dispute);
+    } else {
+      message.dispute = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllDisputeRequest: object = {};
+
+export const QueryAllDisputeRequest = {
+  encode(
+    message: QueryAllDisputeRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllDisputeRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllDisputeRequest } as QueryAllDisputeRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllDisputeRequest {
+    const message = { ...baseQueryAllDisputeRequest } as QueryAllDisputeRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllDisputeRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllDisputeRequest>
+  ): QueryAllDisputeRequest {
+    const message = { ...baseQueryAllDisputeRequest } as QueryAllDisputeRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllDisputeResponse: object = {};
+
+export const QueryAllDisputeResponse = {
+  encode(
+    message: QueryAllDisputeResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.dispute) {
+      Dispute.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllDisputeResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllDisputeResponse,
+    } as QueryAllDisputeResponse;
+    message.dispute = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.dispute.push(Dispute.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllDisputeResponse {
+    const message = {
+      ...baseQueryAllDisputeResponse,
+    } as QueryAllDisputeResponse;
+    message.dispute = [];
+    if (object.dispute !== undefined && object.dispute !== null) {
+      for (const e of object.dispute) {
+        message.dispute.push(Dispute.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllDisputeResponse): unknown {
+    const obj: any = {};
+    if (message.dispute) {
+      obj.dispute = message.dispute.map((e) =>
+        e ? Dispute.toJSON(e) : undefined
+      );
+    } else {
+      obj.dispute = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllDisputeResponse>
+  ): QueryAllDisputeResponse {
+    const message = {
+      ...baseQueryAllDisputeResponse,
+    } as QueryAllDisputeResponse;
+    message.dispute = [];
+    if (object.dispute !== undefined && object.dispute !== null) {
+      for (const e of object.dispute) {
+        message.dispute.push(Dispute.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -730,6 +1038,10 @@ export interface Query {
   Vote(request: QueryGetVoteRequest): Promise<QueryGetVoteResponse>;
   /** Queries a list of Vote items. */
   VoteAll(request: QueryAllVoteRequest): Promise<QueryAllVoteResponse>;
+  /** Queries a Dispute by index. */
+  Dispute(request: QueryGetDisputeRequest): Promise<QueryGetDisputeResponse>;
+  /** Queries a list of Dispute items. */
+  DisputeAll(request: QueryAllDisputeRequest): Promise<QueryAllDisputeResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -792,6 +1104,32 @@ export class QueryClientImpl implements Query {
     );
     return promise.then((data) =>
       QueryAllVoteResponse.decode(new Reader(data))
+    );
+  }
+
+  Dispute(request: QueryGetDisputeRequest): Promise<QueryGetDisputeResponse> {
+    const data = QueryGetDisputeRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.escrow.Query",
+      "Dispute",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetDisputeResponse.decode(new Reader(data))
+    );
+  }
+
+  DisputeAll(
+    request: QueryAllDisputeRequest
+  ): Promise<QueryAllDisputeResponse> {
+    const data = QueryAllDisputeRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.escrow.Query",
+      "DisputeAll",
+      data
+    );
+    return promise.then((data) =>
+      QueryAllDisputeResponse.decode(new Reader(data))
     );
   }
 }

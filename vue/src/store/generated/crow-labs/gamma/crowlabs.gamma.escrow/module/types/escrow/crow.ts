@@ -16,6 +16,7 @@ export interface Crow {
   timeout: string[];
   disputeId: string;
   creator: string;
+  crowId: string;
 }
 
 const baseCrow: object = {
@@ -27,6 +28,7 @@ const baseCrow: object = {
   timeout: "",
   disputeId: "",
   creator: "",
+  crowId: "",
 };
 
 export const Crow = {
@@ -63,6 +65,9 @@ export const Crow = {
     }
     if (message.creator !== "") {
       writer.uint32(90).string(message.creator);
+    }
+    if (message.crowId !== "") {
+      writer.uint32(98).string(message.crowId);
     }
     return writer;
   },
@@ -110,6 +115,9 @@ export const Crow = {
           break;
         case 11:
           message.creator = reader.string();
+          break;
+        case 12:
+          message.crowId = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -186,6 +194,11 @@ export const Crow = {
     } else {
       message.creator = "";
     }
+    if (object.crowId !== undefined && object.crowId !== null) {
+      message.crowId = String(object.crowId);
+    } else {
+      message.crowId = "";
+    }
     return message;
   },
 
@@ -224,6 +237,7 @@ export const Crow = {
     }
     message.disputeId !== undefined && (obj.disputeId = message.disputeId);
     message.creator !== undefined && (obj.creator = message.creator);
+    message.crowId !== undefined && (obj.crowId = message.crowId);
     return obj;
   },
 
@@ -293,6 +307,11 @@ export const Crow = {
       message.creator = object.creator;
     } else {
       message.creator = "";
+    }
+    if (object.crowId !== undefined && object.crowId !== null) {
+      message.crowId = object.crowId;
+    } else {
+      message.crowId = "";
     }
     return message;
   },

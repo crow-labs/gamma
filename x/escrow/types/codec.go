@@ -14,6 +14,9 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateVote{}, "escrow/CreateVote", nil)
 	cdc.RegisterConcrete(&MsgUpdateVote{}, "escrow/UpdateVote", nil)
 	cdc.RegisterConcrete(&MsgDeleteVote{}, "escrow/DeleteVote", nil)
+	cdc.RegisterConcrete(&MsgCreateDispute{}, "escrow/CreateDispute", nil)
+	cdc.RegisterConcrete(&MsgUpdateDispute{}, "escrow/UpdateDispute", nil)
+	cdc.RegisterConcrete(&MsgDeleteDispute{}, "escrow/DeleteDispute", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -27,6 +30,11 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgCreateVote{},
 		&MsgUpdateVote{},
 		&MsgDeleteVote{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgCreateDispute{},
+		&MsgUpdateDispute{},
+		&MsgDeleteDispute{},
 	)
 	// this line is used by starport scaffolding # 3
 

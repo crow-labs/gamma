@@ -1,0 +1,14 @@
+syntax = "proto3";
+package crowlabs.gamma.escrow;
+
+option go_package = "github.com/crow-labs/gamma/x/escrow/types";
+
+message Dispute {
+  string crowId = 1; 
+  string disputeId = 2; 
+  string title = 3; 
+  string description = 4; 
+  string evidence = 5; 
+  string creator = 6;
+}
+

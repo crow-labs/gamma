@@ -17,5 +17,6 @@ message Crow {
   repeated string timeout = 9; 
   string disputeId = 10; 
   string creator = 11;
+  string crowId = 12;
 }
 
