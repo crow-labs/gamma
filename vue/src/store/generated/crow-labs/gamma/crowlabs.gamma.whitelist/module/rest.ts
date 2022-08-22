@@ -104,13 +104,19 @@ export type WhitelistMsgCreateBuyerIdsResponse = object;
 
 export type WhitelistMsgCreateBuyersResponse = object;
 
+export type WhitelistMsgCreateVoterResponse = object;
+
 export type WhitelistMsgDeleteBuyerIdsResponse = object;
 
 export type WhitelistMsgDeleteBuyersResponse = object;
 
+export type WhitelistMsgDeleteVoterResponse = object;
+
 export type WhitelistMsgUpdateBuyerIdsResponse = object;
 
 export type WhitelistMsgUpdateBuyersResponse = object;
+
+export type WhitelistMsgUpdateVoterResponse = object;
 
 /**
  * Params defines the parameters for the module.
@@ -147,6 +153,21 @@ export interface WhitelistQueryAllBuyersResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface WhitelistQueryAllVoterResponse {
+  voter?: WhitelistVoter[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface WhitelistQueryGetBuyerIdsResponse {
   buyerIds?: WhitelistBuyerIds;
 }
@@ -155,12 +176,25 @@ export interface WhitelistQueryGetBuyersResponse {
   buyers?: WhitelistBuyers;
 }
 
+export interface WhitelistQueryGetVoterResponse {
+  voter?: WhitelistVoter;
+}
+
 /**
  * QueryParamsResponse is response type for the Query/Params RPC method.
  */
 export interface WhitelistQueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: WhitelistParams;
+}
+
+export interface WhitelistVoter {
+  accAddr?: string;
+  status?: string;
+  pendingVotes?: string[];
+  previousVotes?: string[];
+  voterId?: string;
+  creator?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -454,6 +488,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryParams = (params: RequestParams = {}) =>
     this.request<WhitelistQueryParamsResponse, RpcStatus>({
       path: `/crow-labs/gamma/whitelist/params`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryVoterAll
+   * @summary Queries a list of Voter items.
+   * @request GET:/crow-labs/gamma/whitelist/voter
+   */
+  queryVoterAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<WhitelistQueryAllVoterResponse, RpcStatus>({
+      path: `/crow-labs/gamma/whitelist/voter`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryVoter
+   * @summary Queries a Voter by index.
+   * @request GET:/crow-labs/gamma/whitelist/voter/{accAddr}
+   */
+  queryVoter = (accAddr: string, params: RequestParams = {}) =>
+    this.request<WhitelistQueryGetVoterResponse, RpcStatus>({
+      path: `/crow-labs/gamma/whitelist/voter/${accAddr}`,
       method: "GET",
       format: "json",
       ...params,

@@ -25,9 +25,15 @@ export interface EscrowCrow {
 
 export type EscrowMsgCreateCrowResponse = object;
 
+export type EscrowMsgCreateVoteResponse = object;
+
 export type EscrowMsgDeleteCrowResponse = object;
 
+export type EscrowMsgDeleteVoteResponse = object;
+
 export type EscrowMsgUpdateCrowResponse = object;
+
+export type EscrowMsgUpdateVoteResponse = object;
 
 /**
  * Params defines the parameters for the module.
@@ -49,8 +55,27 @@ export interface EscrowQueryAllCrowResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface EscrowQueryAllVoteResponse {
+  vote?: EscrowVote[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface EscrowQueryGetCrowResponse {
   crow?: EscrowCrow;
+}
+
+export interface EscrowQueryGetVoteResponse {
+  vote?: EscrowVote;
 }
 
 /**
@@ -59,6 +84,19 @@ export interface EscrowQueryGetCrowResponse {
 export interface EscrowQueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: EscrowParams;
+}
+
+export interface EscrowVote {
+  voterId?: string;
+  disputeId?: string;
+  voteId?: string;
+  buyerGuilty?: boolean;
+  sellerGuilty?: boolean;
+  refundToBuyer?: V1Beta1Coin[];
+  sendToSeller?: V1Beta1Coin[];
+  buyerPunishment?: string;
+  sellerPunishment?: string;
+  creator?: string;
 }
 
 export interface ProtobufAny {
@@ -120,13 +158,6 @@ export interface V1Beta1PageRequest {
    * is set.
    */
   count_total?: boolean;
-
-  /**
-   * reverse is set to true if results are to be returned in the descending order.
-   *
-   * Since: cosmos-sdk 0.43
-   */
-  reverse?: boolean;
 }
 
 /**
@@ -356,7 +387,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -395,6 +425,47 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryParams = (params: RequestParams = {}) =>
     this.request<EscrowQueryParamsResponse, RpcStatus>({
       path: `/crow-labs/gamma/escrow/params`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryVoteAll
+   * @summary Queries a list of Vote items.
+   * @request GET:/crow-labs/gamma/escrow/vote
+   */
+  queryVoteAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<EscrowQueryAllVoteResponse, RpcStatus>({
+      path: `/crow-labs/gamma/escrow/vote`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryVote
+   * @summary Queries a Vote by index.
+   * @request GET:/crow-labs/gamma/escrow/vote/{voterId}/{disputeId}
+   */
+  queryVote = (voterId: string, disputeId: string, params: RequestParams = {}) =>
+    this.request<EscrowQueryGetVoteResponse, RpcStatus>({
+      path: `/crow-labs/gamma/escrow/vote/${voterId}/${disputeId}`,
       method: "GET",
       format: "json",
       ...params,

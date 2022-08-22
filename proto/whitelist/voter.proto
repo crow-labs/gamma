@@ -1,0 +1,14 @@
+syntax = "proto3";
+package crowlabs.gamma.whitelist;
+
+option go_package = "github.com/crow-labs/gamma/x/whitelist/types";
+
+message Voter {
+  string accAddr = 1; 
+  string status = 2; 
+  repeated string pendingVotes = 3; 
+  repeated string previousVotes = 4; 
+  string voterId = 5; 
+  string creator = 6;
+}
+

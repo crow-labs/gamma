@@ -50,6 +50,35 @@ export interface MsgDeleteBuyers {
 
 export interface MsgDeleteBuyersResponse {}
 
+export interface MsgCreateVoter {
+  creator: string;
+  accAddr: string;
+  status: string;
+  pendingVotes: string[];
+  previousVotes: string[];
+  voterId: string;
+}
+
+export interface MsgCreateVoterResponse {}
+
+export interface MsgUpdateVoter {
+  creator: string;
+  accAddr: string;
+  status: string;
+  pendingVotes: string[];
+  previousVotes: string[];
+  voterId: string;
+}
+
+export interface MsgUpdateVoterResponse {}
+
+export interface MsgDeleteVoter {
+  creator: string;
+  accAddr: string;
+}
+
+export interface MsgDeleteVoterResponse {}
+
 const baseMsgCreateBuyerIds: object = { creator: "", accAddr: "", buyerId: "" };
 
 export const MsgCreateBuyerIds = {
@@ -846,6 +875,514 @@ export const MsgDeleteBuyersResponse = {
   },
 };
 
+const baseMsgCreateVoter: object = {
+  creator: "",
+  accAddr: "",
+  status: "",
+  pendingVotes: "",
+  previousVotes: "",
+  voterId: "",
+};
+
+export const MsgCreateVoter = {
+  encode(message: MsgCreateVoter, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.accAddr !== "") {
+      writer.uint32(18).string(message.accAddr);
+    }
+    if (message.status !== "") {
+      writer.uint32(26).string(message.status);
+    }
+    for (const v of message.pendingVotes) {
+      writer.uint32(34).string(v!);
+    }
+    for (const v of message.previousVotes) {
+      writer.uint32(42).string(v!);
+    }
+    if (message.voterId !== "") {
+      writer.uint32(50).string(message.voterId);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgCreateVoter {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgCreateVoter } as MsgCreateVoter;
+    message.pendingVotes = [];
+    message.previousVotes = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.accAddr = reader.string();
+          break;
+        case 3:
+          message.status = reader.string();
+          break;
+        case 4:
+          message.pendingVotes.push(reader.string());
+          break;
+        case 5:
+          message.previousVotes.push(reader.string());
+          break;
+        case 6:
+          message.voterId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgCreateVoter {
+    const message = { ...baseMsgCreateVoter } as MsgCreateVoter;
+    message.pendingVotes = [];
+    message.previousVotes = [];
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.accAddr !== undefined && object.accAddr !== null) {
+      message.accAddr = String(object.accAddr);
+    } else {
+      message.accAddr = "";
+    }
+    if (object.status !== undefined && object.status !== null) {
+      message.status = String(object.status);
+    } else {
+      message.status = "";
+    }
+    if (object.pendingVotes !== undefined && object.pendingVotes !== null) {
+      for (const e of object.pendingVotes) {
+        message.pendingVotes.push(String(e));
+      }
+    }
+    if (object.previousVotes !== undefined && object.previousVotes !== null) {
+      for (const e of object.previousVotes) {
+        message.previousVotes.push(String(e));
+      }
+    }
+    if (object.voterId !== undefined && object.voterId !== null) {
+      message.voterId = String(object.voterId);
+    } else {
+      message.voterId = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgCreateVoter): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.accAddr !== undefined && (obj.accAddr = message.accAddr);
+    message.status !== undefined && (obj.status = message.status);
+    if (message.pendingVotes) {
+      obj.pendingVotes = message.pendingVotes.map((e) => e);
+    } else {
+      obj.pendingVotes = [];
+    }
+    if (message.previousVotes) {
+      obj.previousVotes = message.previousVotes.map((e) => e);
+    } else {
+      obj.previousVotes = [];
+    }
+    message.voterId !== undefined && (obj.voterId = message.voterId);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgCreateVoter>): MsgCreateVoter {
+    const message = { ...baseMsgCreateVoter } as MsgCreateVoter;
+    message.pendingVotes = [];
+    message.previousVotes = [];
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.accAddr !== undefined && object.accAddr !== null) {
+      message.accAddr = object.accAddr;
+    } else {
+      message.accAddr = "";
+    }
+    if (object.status !== undefined && object.status !== null) {
+      message.status = object.status;
+    } else {
+      message.status = "";
+    }
+    if (object.pendingVotes !== undefined && object.pendingVotes !== null) {
+      for (const e of object.pendingVotes) {
+        message.pendingVotes.push(e);
+      }
+    }
+    if (object.previousVotes !== undefined && object.previousVotes !== null) {
+      for (const e of object.previousVotes) {
+        message.previousVotes.push(e);
+      }
+    }
+    if (object.voterId !== undefined && object.voterId !== null) {
+      message.voterId = object.voterId;
+    } else {
+      message.voterId = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgCreateVoterResponse: object = {};
+
+export const MsgCreateVoterResponse = {
+  encode(_: MsgCreateVoterResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgCreateVoterResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgCreateVoterResponse } as MsgCreateVoterResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgCreateVoterResponse {
+    const message = { ...baseMsgCreateVoterResponse } as MsgCreateVoterResponse;
+    return message;
+  },
+
+  toJSON(_: MsgCreateVoterResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgCreateVoterResponse>): MsgCreateVoterResponse {
+    const message = { ...baseMsgCreateVoterResponse } as MsgCreateVoterResponse;
+    return message;
+  },
+};
+
+const baseMsgUpdateVoter: object = {
+  creator: "",
+  accAddr: "",
+  status: "",
+  pendingVotes: "",
+  previousVotes: "",
+  voterId: "",
+};
+
+export const MsgUpdateVoter = {
+  encode(message: MsgUpdateVoter, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.accAddr !== "") {
+      writer.uint32(18).string(message.accAddr);
+    }
+    if (message.status !== "") {
+      writer.uint32(26).string(message.status);
+    }
+    for (const v of message.pendingVotes) {
+      writer.uint32(34).string(v!);
+    }
+    for (const v of message.previousVotes) {
+      writer.uint32(42).string(v!);
+    }
+    if (message.voterId !== "") {
+      writer.uint32(50).string(message.voterId);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgUpdateVoter {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgUpdateVoter } as MsgUpdateVoter;
+    message.pendingVotes = [];
+    message.previousVotes = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.accAddr = reader.string();
+          break;
+        case 3:
+          message.status = reader.string();
+          break;
+        case 4:
+          message.pendingVotes.push(reader.string());
+          break;
+        case 5:
+          message.previousVotes.push(reader.string());
+          break;
+        case 6:
+          message.voterId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgUpdateVoter {
+    const message = { ...baseMsgUpdateVoter } as MsgUpdateVoter;
+    message.pendingVotes = [];
+    message.previousVotes = [];
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.accAddr !== undefined && object.accAddr !== null) {
+      message.accAddr = String(object.accAddr);
+    } else {
+      message.accAddr = "";
+    }
+    if (object.status !== undefined && object.status !== null) {
+      message.status = String(object.status);
+    } else {
+      message.status = "";
+    }
+    if (object.pendingVotes !== undefined && object.pendingVotes !== null) {
+      for (const e of object.pendingVotes) {
+        message.pendingVotes.push(String(e));
+      }
+    }
+    if (object.previousVotes !== undefined && object.previousVotes !== null) {
+      for (const e of object.previousVotes) {
+        message.previousVotes.push(String(e));
+      }
+    }
+    if (object.voterId !== undefined && object.voterId !== null) {
+      message.voterId = String(object.voterId);
+    } else {
+      message.voterId = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgUpdateVoter): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.accAddr !== undefined && (obj.accAddr = message.accAddr);
+    message.status !== undefined && (obj.status = message.status);
+    if (message.pendingVotes) {
+      obj.pendingVotes = message.pendingVotes.map((e) => e);
+    } else {
+      obj.pendingVotes = [];
+    }
+    if (message.previousVotes) {
+      obj.previousVotes = message.previousVotes.map((e) => e);
+    } else {
+      obj.previousVotes = [];
+    }
+    message.voterId !== undefined && (obj.voterId = message.voterId);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgUpdateVoter>): MsgUpdateVoter {
+    const message = { ...baseMsgUpdateVoter } as MsgUpdateVoter;
+    message.pendingVotes = [];
+    message.previousVotes = [];
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.accAddr !== undefined && object.accAddr !== null) {
+      message.accAddr = object.accAddr;
+    } else {
+      message.accAddr = "";
+    }
+    if (object.status !== undefined && object.status !== null) {
+      message.status = object.status;
+    } else {
+      message.status = "";
+    }
+    if (object.pendingVotes !== undefined && object.pendingVotes !== null) {
+      for (const e of object.pendingVotes) {
+        message.pendingVotes.push(e);
+      }
+    }
+    if (object.previousVotes !== undefined && object.previousVotes !== null) {
+      for (const e of object.previousVotes) {
+        message.previousVotes.push(e);
+      }
+    }
+    if (object.voterId !== undefined && object.voterId !== null) {
+      message.voterId = object.voterId;
+    } else {
+      message.voterId = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgUpdateVoterResponse: object = {};
+
+export const MsgUpdateVoterResponse = {
+  encode(_: MsgUpdateVoterResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgUpdateVoterResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgUpdateVoterResponse } as MsgUpdateVoterResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgUpdateVoterResponse {
+    const message = { ...baseMsgUpdateVoterResponse } as MsgUpdateVoterResponse;
+    return message;
+  },
+
+  toJSON(_: MsgUpdateVoterResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgUpdateVoterResponse>): MsgUpdateVoterResponse {
+    const message = { ...baseMsgUpdateVoterResponse } as MsgUpdateVoterResponse;
+    return message;
+  },
+};
+
+const baseMsgDeleteVoter: object = { creator: "", accAddr: "" };
+
+export const MsgDeleteVoter = {
+  encode(message: MsgDeleteVoter, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.accAddr !== "") {
+      writer.uint32(18).string(message.accAddr);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgDeleteVoter {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgDeleteVoter } as MsgDeleteVoter;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.accAddr = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgDeleteVoter {
+    const message = { ...baseMsgDeleteVoter } as MsgDeleteVoter;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.accAddr !== undefined && object.accAddr !== null) {
+      message.accAddr = String(object.accAddr);
+    } else {
+      message.accAddr = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgDeleteVoter): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.accAddr !== undefined && (obj.accAddr = message.accAddr);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgDeleteVoter>): MsgDeleteVoter {
+    const message = { ...baseMsgDeleteVoter } as MsgDeleteVoter;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.accAddr !== undefined && object.accAddr !== null) {
+      message.accAddr = object.accAddr;
+    } else {
+      message.accAddr = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgDeleteVoterResponse: object = {};
+
+export const MsgDeleteVoterResponse = {
+  encode(_: MsgDeleteVoterResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgDeleteVoterResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgDeleteVoterResponse } as MsgDeleteVoterResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgDeleteVoterResponse {
+    const message = { ...baseMsgDeleteVoterResponse } as MsgDeleteVoterResponse;
+    return message;
+  },
+
+  toJSON(_: MsgDeleteVoterResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgDeleteVoterResponse>): MsgDeleteVoterResponse {
+    const message = { ...baseMsgDeleteVoterResponse } as MsgDeleteVoterResponse;
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   CreateBuyerIds(
@@ -859,8 +1396,11 @@ export interface Msg {
   ): Promise<MsgDeleteBuyerIdsResponse>;
   CreateBuyers(request: MsgCreateBuyers): Promise<MsgCreateBuyersResponse>;
   UpdateBuyers(request: MsgUpdateBuyers): Promise<MsgUpdateBuyersResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   DeleteBuyers(request: MsgDeleteBuyers): Promise<MsgDeleteBuyersResponse>;
+  CreateVoter(request: MsgCreateVoter): Promise<MsgCreateVoterResponse>;
+  UpdateVoter(request: MsgUpdateVoter): Promise<MsgUpdateVoterResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  DeleteVoter(request: MsgDeleteVoter): Promise<MsgDeleteVoterResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -943,6 +1483,42 @@ export class MsgClientImpl implements Msg {
     );
     return promise.then((data) =>
       MsgDeleteBuyersResponse.decode(new Reader(data))
+    );
+  }
+
+  CreateVoter(request: MsgCreateVoter): Promise<MsgCreateVoterResponse> {
+    const data = MsgCreateVoter.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.whitelist.Msg",
+      "CreateVoter",
+      data
+    );
+    return promise.then((data) =>
+      MsgCreateVoterResponse.decode(new Reader(data))
+    );
+  }
+
+  UpdateVoter(request: MsgUpdateVoter): Promise<MsgUpdateVoterResponse> {
+    const data = MsgUpdateVoter.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.whitelist.Msg",
+      "UpdateVoter",
+      data
+    );
+    return promise.then((data) =>
+      MsgUpdateVoterResponse.decode(new Reader(data))
+    );
+  }
+
+  DeleteVoter(request: MsgDeleteVoter): Promise<MsgDeleteVoterResponse> {
+    const data = MsgDeleteVoter.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.whitelist.Msg",
+      "DeleteVoter",
+      data
+    );
+    return promise.then((data) =>
+      MsgDeleteVoterResponse.decode(new Reader(data))
     );
   }
 }

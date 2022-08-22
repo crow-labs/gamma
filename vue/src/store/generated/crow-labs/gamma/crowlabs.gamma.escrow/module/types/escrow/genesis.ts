@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { Params } from "../escrow/params";
 import { Crow } from "../escrow/crow";
+import { Vote } from "../escrow/vote";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "crowlabs.gamma.escrow";
@@ -9,8 +10,9 @@ export const protobufPackage = "crowlabs.gamma.escrow";
 export interface GenesisState {
   params: Params | undefined;
   port_id: string;
-  /** this line is used by starport scaffolding # genesis/proto/state */
   crowList: Crow[];
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  voteList: Vote[];
 }
 
 const baseGenesisState: object = { port_id: "" };
@@ -26,6 +28,9 @@ export const GenesisState = {
     for (const v of message.crowList) {
       Crow.encode(v!, writer.uint32(26).fork()).ldelim();
     }
+    for (const v of message.voteList) {
+      Vote.encode(v!, writer.uint32(34).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -34,6 +39,7 @@ export const GenesisState = {
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseGenesisState } as GenesisState;
     message.crowList = [];
+    message.voteList = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -46,6 +52,9 @@ export const GenesisState = {
         case 3:
           message.crowList.push(Crow.decode(reader, reader.uint32()));
           break;
+        case 4:
+          message.voteList.push(Vote.decode(reader, reader.uint32()));
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -57,6 +66,7 @@ export const GenesisState = {
   fromJSON(object: any): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
     message.crowList = [];
+    message.voteList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromJSON(object.params);
     } else {
@@ -70,6 +80,11 @@ export const GenesisState = {
     if (object.crowList !== undefined && object.crowList !== null) {
       for (const e of object.crowList) {
         message.crowList.push(Crow.fromJSON(e));
+      }
+    }
+    if (object.voteList !== undefined && object.voteList !== null) {
+      for (const e of object.voteList) {
+        message.voteList.push(Vote.fromJSON(e));
       }
     }
     return message;
@@ -87,12 +102,20 @@ export const GenesisState = {
     } else {
       obj.crowList = [];
     }
+    if (message.voteList) {
+      obj.voteList = message.voteList.map((e) =>
+        e ? Vote.toJSON(e) : undefined
+      );
+    } else {
+      obj.voteList = [];
+    }
     return obj;
   },
 
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
     message.crowList = [];
+    message.voteList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
     } else {
@@ -106,6 +129,11 @@ export const GenesisState = {
     if (object.crowList !== undefined && object.crowList !== null) {
       for (const e of object.crowList) {
         message.crowList.push(Crow.fromPartial(e));
+      }
+    }
+    if (object.voteList !== undefined && object.voteList !== null) {
+      for (const e of object.voteList) {
+        message.voteList.push(Vote.fromPartial(e));
       }
     }
     return message;

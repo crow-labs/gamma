@@ -1,0 +1,20 @@
+syntax = "proto3";
+package crowlabs.gamma.escrow;
+
+option go_package = "github.com/crow-labs/gamma/x/escrow/types";
+import "gogoproto/gogo.proto"; 
+import "cosmos/base/v1beta1/coin.proto"; 
+
+message Vote {
+  string voterId = 1; 
+  string disputeId = 2; 
+  string voteId = 3; 
+  bool buyerGuilty = 4; 
+  bool sellerGuilty = 5; 
+  repeated cosmos.base.v1beta1.Coin refundToBuyer = 6 [(gogoproto.nullable) = false]; 
+  repeated cosmos.base.v1beta1.Coin sendToSeller = 7 [(gogoproto.nullable) = false]; 
+  string buyerPunishment = 8; 
+  string sellerPunishment = 9; 
+  string creator = 10;
+}
+

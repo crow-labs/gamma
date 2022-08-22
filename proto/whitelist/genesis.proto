@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "whitelist/params.proto";
 import "whitelist/buyer_ids.proto";
 import "whitelist/buyers.proto";
+import "whitelist/voter.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/crow-labs/gamma/x/whitelist/types";
@@ -14,5 +15,6 @@ message GenesisState {
   Params params = 1 [(gogoproto.nullable) = false];
   repeated BuyerIds buyerIdsList = 2 [(gogoproto.nullable) = false];
   repeated Buyers buyersList = 3 [(gogoproto.nullable) = false];
+  repeated Voter voterList = 4 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }

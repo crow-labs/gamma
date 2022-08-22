@@ -7,6 +7,7 @@ import "cosmos/base/query/v1beta1/pagination.proto";
 import "whitelist/params.proto";
 import "whitelist/buyer_ids.proto";
 import "whitelist/buyers.proto";
+import "whitelist/voter.proto";
 // this line is used by starport scaffolding # 1
 import "whitelist/buyer.proto";
 
@@ -36,6 +37,16 @@ service Query {
 	// Queries a list of Buyers items.
 	rpc BuyersAll(QueryAllBuyersRequest) returns (QueryAllBuyersResponse) {
 		option (google.api.http).get = "/crow-labs/gamma/whitelist/buyers";
+	}
+
+// Queries a Voter by index.
+	rpc Voter(QueryGetVoterRequest) returns (QueryGetVoterResponse) {
+		option (google.api.http).get = "/crow-labs/gamma/whitelist/voter/{accAddr}";
+	}
+
+	// Queries a list of Voter items.
+	rpc VoterAll(QueryAllVoterRequest) returns (QueryAllVoterResponse) {
+		option (google.api.http).get = "/crow-labs/gamma/whitelist/voter";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -83,6 +94,24 @@ message QueryAllBuyersRequest {
 
 message QueryAllBuyersResponse {
 	repeated Buyers buyers = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetVoterRequest {
+	  string accAddr = 1;
+
+}
+
+message QueryGetVoterResponse {
+	Voter voter = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllVoterRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllVoterResponse {
+	repeated Voter voter = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

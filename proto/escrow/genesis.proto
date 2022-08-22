@@ -4,6 +4,7 @@ package crowlabs.gamma.escrow;
 import "gogoproto/gogo.proto";
 import "escrow/params.proto";
 import "escrow/crow.proto";
+import "escrow/vote.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/crow-labs/gamma/x/escrow/types";
@@ -13,5 +14,6 @@ message GenesisState {
   Params params = 1 [(gogoproto.nullable) = false];
   string port_id = 2;
   repeated Crow crowList = 3 [(gogoproto.nullable) = false];
+  repeated Vote voteList = 4 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }

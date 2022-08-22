@@ -4,14 +4,20 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgDeleteCrow } from "./types/escrow/tx";
+import { MsgCreateVote } from "./types/escrow/tx";
+import { MsgUpdateVote } from "./types/escrow/tx";
+import { MsgDeleteVote } from "./types/escrow/tx";
 import { MsgCreateCrow } from "./types/escrow/tx";
+import { MsgDeleteCrow } from "./types/escrow/tx";
 import { MsgUpdateCrow } from "./types/escrow/tx";
 
 
 const types = [
-  ["/crowlabs.gamma.escrow.MsgDeleteCrow", MsgDeleteCrow],
+  ["/crowlabs.gamma.escrow.MsgCreateVote", MsgCreateVote],
+  ["/crowlabs.gamma.escrow.MsgUpdateVote", MsgUpdateVote],
+  ["/crowlabs.gamma.escrow.MsgDeleteVote", MsgDeleteVote],
   ["/crowlabs.gamma.escrow.MsgCreateCrow", MsgCreateCrow],
+  ["/crowlabs.gamma.escrow.MsgDeleteCrow", MsgDeleteCrow],
   ["/crowlabs.gamma.escrow.MsgUpdateCrow", MsgUpdateCrow],
   
 ];
@@ -45,8 +51,11 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
-    msgDeleteCrow: (data: MsgDeleteCrow): EncodeObject => ({ typeUrl: "/crowlabs.gamma.escrow.MsgDeleteCrow", value: MsgDeleteCrow.fromPartial( data ) }),
+    msgCreateVote: (data: MsgCreateVote): EncodeObject => ({ typeUrl: "/crowlabs.gamma.escrow.MsgCreateVote", value: MsgCreateVote.fromPartial( data ) }),
+    msgUpdateVote: (data: MsgUpdateVote): EncodeObject => ({ typeUrl: "/crowlabs.gamma.escrow.MsgUpdateVote", value: MsgUpdateVote.fromPartial( data ) }),
+    msgDeleteVote: (data: MsgDeleteVote): EncodeObject => ({ typeUrl: "/crowlabs.gamma.escrow.MsgDeleteVote", value: MsgDeleteVote.fromPartial( data ) }),
     msgCreateCrow: (data: MsgCreateCrow): EncodeObject => ({ typeUrl: "/crowlabs.gamma.escrow.MsgCreateCrow", value: MsgCreateCrow.fromPartial( data ) }),
+    msgDeleteCrow: (data: MsgDeleteCrow): EncodeObject => ({ typeUrl: "/crowlabs.gamma.escrow.MsgDeleteCrow", value: MsgDeleteCrow.fromPartial( data ) }),
     msgUpdateCrow: (data: MsgUpdateCrow): EncodeObject => ({ typeUrl: "/crowlabs.gamma.escrow.MsgUpdateCrow", value: MsgUpdateCrow.fromPartial( data ) }),
     
   };

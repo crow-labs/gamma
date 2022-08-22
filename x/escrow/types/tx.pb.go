@@ -445,6 +445,406 @@ func (m *MsgDeleteCrowResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgDeleteCrowResponse proto.InternalMessageInfo
 
+type MsgCreateVote struct {
+	Creator          string       `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	VoterId          string       `protobuf:"bytes,2,opt,name=voterId,proto3" json:"voterId,omitempty"`
+	DisputeId        string       `protobuf:"bytes,3,opt,name=disputeId,proto3" json:"disputeId,omitempty"`
+	VoteId           string       `protobuf:"bytes,4,opt,name=voteId,proto3" json:"voteId,omitempty"`
+	BuyerGuilty      bool         `protobuf:"varint,5,opt,name=buyerGuilty,proto3" json:"buyerGuilty,omitempty"`
+	SellerGuilty     bool         `protobuf:"varint,6,opt,name=sellerGuilty,proto3" json:"sellerGuilty,omitempty"`
+	RefundToBuyer    []types.Coin `protobuf:"bytes,7,rep,name=refundToBuyer,proto3" json:"refundToBuyer"`
+	SendToSeller     []types.Coin `protobuf:"bytes,8,rep,name=sendToSeller,proto3" json:"sendToSeller"`
+	BuyerPunishment  string       `protobuf:"bytes,9,opt,name=buyerPunishment,proto3" json:"buyerPunishment,omitempty"`
+	SellerPunishment string       `protobuf:"bytes,10,opt,name=sellerPunishment,proto3" json:"sellerPunishment,omitempty"`
+}
+
+func (m *MsgCreateVote) Reset()         { *m = MsgCreateVote{} }
+func (m *MsgCreateVote) String() string { return proto.CompactTextString(m) }
+func (*MsgCreateVote) ProtoMessage()    {}
+func (*MsgCreateVote) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8e01f3e45c7c056c, []int{6}
+}
+func (m *MsgCreateVote) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgCreateVote) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgCreateVote.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgCreateVote) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgCreateVote.Merge(m, src)
+}
+func (m *MsgCreateVote) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgCreateVote) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgCreateVote.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgCreateVote proto.InternalMessageInfo
+
+func (m *MsgCreateVote) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgCreateVote) GetVoterId() string {
+	if m != nil {
+		return m.VoterId
+	}
+	return ""
+}
+
+func (m *MsgCreateVote) GetDisputeId() string {
+	if m != nil {
+		return m.DisputeId
+	}
+	return ""
+}
+
+func (m *MsgCreateVote) GetVoteId() string {
+	if m != nil {
+		return m.VoteId
+	}
+	return ""
+}
+
+func (m *MsgCreateVote) GetBuyerGuilty() bool {
+	if m != nil {
+		return m.BuyerGuilty
+	}
+	return false
+}
+
+func (m *MsgCreateVote) GetSellerGuilty() bool {
+	if m != nil {
+		return m.SellerGuilty
+	}
+	return false
+}
+
+func (m *MsgCreateVote) GetRefundToBuyer() []types.Coin {
+	if m != nil {
+		return m.RefundToBuyer
+	}
+	return nil
+}
+
+func (m *MsgCreateVote) GetSendToSeller() []types.Coin {
+	if m != nil {
+		return m.SendToSeller
+	}
+	return nil
+}
+
+func (m *MsgCreateVote) GetBuyerPunishment() string {
+	if m != nil {
+		return m.BuyerPunishment
+	}
+	return ""
+}
+
+func (m *MsgCreateVote) GetSellerPunishment() string {
+	if m != nil {
+		return m.SellerPunishment
+	}
+	return ""
+}
+
+type MsgCreateVoteResponse struct {
+}
+
+func (m *MsgCreateVoteResponse) Reset()         { *m = MsgCreateVoteResponse{} }
+func (m *MsgCreateVoteResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgCreateVoteResponse) ProtoMessage()    {}
+func (*MsgCreateVoteResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8e01f3e45c7c056c, []int{7}
+}
+func (m *MsgCreateVoteResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgCreateVoteResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgCreateVoteResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgCreateVoteResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgCreateVoteResponse.Merge(m, src)
+}
+func (m *MsgCreateVoteResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgCreateVoteResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgCreateVoteResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgCreateVoteResponse proto.InternalMessageInfo
+
+type MsgUpdateVote struct {
+	Creator          string       `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	VoterId          string       `protobuf:"bytes,2,opt,name=voterId,proto3" json:"voterId,omitempty"`
+	DisputeId        string       `protobuf:"bytes,3,opt,name=disputeId,proto3" json:"disputeId,omitempty"`
+	VoteId           string       `protobuf:"bytes,4,opt,name=voteId,proto3" json:"voteId,omitempty"`
+	BuyerGuilty      bool         `protobuf:"varint,5,opt,name=buyerGuilty,proto3" json:"buyerGuilty,omitempty"`
+	SellerGuilty     bool         `protobuf:"varint,6,opt,name=sellerGuilty,proto3" json:"sellerGuilty,omitempty"`
+	RefundToBuyer    []types.Coin `protobuf:"bytes,7,rep,name=refundToBuyer,proto3" json:"refundToBuyer"`
+	SendToSeller     []types.Coin `protobuf:"bytes,8,rep,name=sendToSeller,proto3" json:"sendToSeller"`
+	BuyerPunishment  string       `protobuf:"bytes,9,opt,name=buyerPunishment,proto3" json:"buyerPunishment,omitempty"`
+	SellerPunishment string       `protobuf:"bytes,10,opt,name=sellerPunishment,proto3" json:"sellerPunishment,omitempty"`
+}
+
+func (m *MsgUpdateVote) Reset()         { *m = MsgUpdateVote{} }
+func (m *MsgUpdateVote) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateVote) ProtoMessage()    {}
+func (*MsgUpdateVote) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8e01f3e45c7c056c, []int{8}
+}
+func (m *MsgUpdateVote) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgUpdateVote) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgUpdateVote.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgUpdateVote) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateVote.Merge(m, src)
+}
+func (m *MsgUpdateVote) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgUpdateVote) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateVote.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgUpdateVote proto.InternalMessageInfo
+
+func (m *MsgUpdateVote) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgUpdateVote) GetVoterId() string {
+	if m != nil {
+		return m.VoterId
+	}
+	return ""
+}
+
+func (m *MsgUpdateVote) GetDisputeId() string {
+	if m != nil {
+		return m.DisputeId
+	}
+	return ""
+}
+
+func (m *MsgUpdateVote) GetVoteId() string {
+	if m != nil {
+		return m.VoteId
+	}
+	return ""
+}
+
+func (m *MsgUpdateVote) GetBuyerGuilty() bool {
+	if m != nil {
+		return m.BuyerGuilty
+	}
+	return false
+}
+
+func (m *MsgUpdateVote) GetSellerGuilty() bool {
+	if m != nil {
+		return m.SellerGuilty
+	}
+	return false
+}
+
+func (m *MsgUpdateVote) GetRefundToBuyer() []types.Coin {
+	if m != nil {
+		return m.RefundToBuyer
+	}
+	return nil
+}
+
+func (m *MsgUpdateVote) GetSendToSeller() []types.Coin {
+	if m != nil {
+		return m.SendToSeller
+	}
+	return nil
+}
+
+func (m *MsgUpdateVote) GetBuyerPunishment() string {
+	if m != nil {
+		return m.BuyerPunishment
+	}
+	return ""
+}
+
+func (m *MsgUpdateVote) GetSellerPunishment() string {
+	if m != nil {
+		return m.SellerPunishment
+	}
+	return ""
+}
+
+type MsgUpdateVoteResponse struct {
+}
+
+func (m *MsgUpdateVoteResponse) Reset()         { *m = MsgUpdateVoteResponse{} }
+func (m *MsgUpdateVoteResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateVoteResponse) ProtoMessage()    {}
+func (*MsgUpdateVoteResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8e01f3e45c7c056c, []int{9}
+}
+func (m *MsgUpdateVoteResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgUpdateVoteResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgUpdateVoteResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgUpdateVoteResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateVoteResponse.Merge(m, src)
+}
+func (m *MsgUpdateVoteResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgUpdateVoteResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateVoteResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgUpdateVoteResponse proto.InternalMessageInfo
+
+type MsgDeleteVote struct {
+	Creator   string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	VoterId   string `protobuf:"bytes,2,opt,name=voterId,proto3" json:"voterId,omitempty"`
+	DisputeId string `protobuf:"bytes,3,opt,name=disputeId,proto3" json:"disputeId,omitempty"`
+}
+
+func (m *MsgDeleteVote) Reset()         { *m = MsgDeleteVote{} }
+func (m *MsgDeleteVote) String() string { return proto.CompactTextString(m) }
+func (*MsgDeleteVote) ProtoMessage()    {}
+func (*MsgDeleteVote) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8e01f3e45c7c056c, []int{10}
+}
+func (m *MsgDeleteVote) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgDeleteVote) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgDeleteVote.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgDeleteVote) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgDeleteVote.Merge(m, src)
+}
+func (m *MsgDeleteVote) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgDeleteVote) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgDeleteVote.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgDeleteVote proto.InternalMessageInfo
+
+func (m *MsgDeleteVote) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgDeleteVote) GetVoterId() string {
+	if m != nil {
+		return m.VoterId
+	}
+	return ""
+}
+
+func (m *MsgDeleteVote) GetDisputeId() string {
+	if m != nil {
+		return m.DisputeId
+	}
+	return ""
+}
+
+type MsgDeleteVoteResponse struct {
+}
+
+func (m *MsgDeleteVoteResponse) Reset()         { *m = MsgDeleteVoteResponse{} }
+func (m *MsgDeleteVoteResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgDeleteVoteResponse) ProtoMessage()    {}
+func (*MsgDeleteVoteResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8e01f3e45c7c056c, []int{11}
+}
+func (m *MsgDeleteVoteResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgDeleteVoteResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgDeleteVoteResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgDeleteVoteResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgDeleteVoteResponse.Merge(m, src)
+}
+func (m *MsgDeleteVoteResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgDeleteVoteResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgDeleteVoteResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgDeleteVoteResponse proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*MsgCreateCrow)(nil), "crowlabs.gamma.escrow.MsgCreateCrow")
 	proto.RegisterType((*MsgCreateCrowResponse)(nil), "crowlabs.gamma.escrow.MsgCreateCrowResponse")
@@ -452,43 +852,60 @@ func init() {
 	proto.RegisterType((*MsgUpdateCrowResponse)(nil), "crowlabs.gamma.escrow.MsgUpdateCrowResponse")
 	proto.RegisterType((*MsgDeleteCrow)(nil), "crowlabs.gamma.escrow.MsgDeleteCrow")
 	proto.RegisterType((*MsgDeleteCrowResponse)(nil), "crowlabs.gamma.escrow.MsgDeleteCrowResponse")
+	proto.RegisterType((*MsgCreateVote)(nil), "crowlabs.gamma.escrow.MsgCreateVote")
+	proto.RegisterType((*MsgCreateVoteResponse)(nil), "crowlabs.gamma.escrow.MsgCreateVoteResponse")
+	proto.RegisterType((*MsgUpdateVote)(nil), "crowlabs.gamma.escrow.MsgUpdateVote")
+	proto.RegisterType((*MsgUpdateVoteResponse)(nil), "crowlabs.gamma.escrow.MsgUpdateVoteResponse")
+	proto.RegisterType((*MsgDeleteVote)(nil), "crowlabs.gamma.escrow.MsgDeleteVote")
+	proto.RegisterType((*MsgDeleteVoteResponse)(nil), "crowlabs.gamma.escrow.MsgDeleteVoteResponse")
 }
 
 func init() { proto.RegisterFile("escrow/tx.proto", fileDescriptor_8e01f3e45c7c056c) }
 
 var fileDescriptor_8e01f3e45c7c056c = []byte{
-	// 482 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x55, 0x41, 0x6b, 0xd4, 0x40,
-	0x14, 0xde, 0x34, 0x75, 0xdb, 0x9d, 0x22, 0xd5, 0xc1, 0xea, 0xb8, 0x48, 0x5c, 0x8a, 0x87, 0x0a,
-	0x3a, 0xa1, 0xf5, 0x07, 0x08, 0x8d, 0x08, 0x8b, 0xf4, 0xb2, 0xe0, 0xc5, 0x93, 0x93, 0x64, 0x88,
-	0x81, 0x24, 0x2f, 0xe4, 0x4d, 0x6c, 0xfb, 0x2f, 0xfc, 0x1f, 0xfe, 0x09, 0x8f, 0x3d, 0xf6, 0xe8,
-	0x49, 0x64, 0xf7, 0x8f, 0xc8, 0x4c, 0x26, 0x9b, 0xac, 0x2b, 0xcb, 0x5e, 0x3c, 0x08, 0x5e, 0xc2,
-	0x7c, 0xf3, 0xbd, 0xf7, 0x3e, 0xde, 0xfb, 0x86, 0x17, 0x72, 0x28, 0x31, 0xaa, 0xe0, 0xd2, 0x57,
-	0x57, 0xbc, 0xac, 0x40, 0x01, 0x3d, 0xd2, 0x30, 0x13, 0x21, 0xf2, 0x44, 0xe4, 0xb9, 0xe0, 0x0d,
-	0x3f, 0xbe, 0x6f, 0xe3, 0xf4, 0xa7, 0x89, 0x1c, 0x7b, 0x11, 0x60, 0x0e, 0xe8, 0x87, 0x02, 0xa5,
-	0xff, 0xf9, 0x34, 0x94, 0x4a, 0x9c, 0xfa, 0x11, 0xa4, 0x85, 0xe5, 0x1f, 0x24, 0x90, 0x80, 0x39,
-	0xfa, 0xfa, 0xd4, 0xdc, 0x1e, 0x7f, 0x73, 0xc9, 0xdd, 0x0b, 0x4c, 0x82, 0x4a, 0x0a, 0x25, 0x83,
-	0x0a, 0x2e, 0x29, 0x23, 0x7b, 0x91, 0x46, 0x50, 0x31, 0x67, 0xe2, 0x9c, 0x8c, 0x66, 0x2d, 0xa4,
-	0x4f, 0xc8, 0x28, 0x4b, 0x51, 0xa5, 0x45, 0x32, 0x8d, 0xd9, 0x8e, 0xe1, 0xba, 0x0b, 0x9d, 0x07,
-	0x55, 0x2c, 0xab, 0x69, 0xcc, 0xdc, 0x26, 0xcf, 0x42, 0xcd, 0x84, 0xf5, 0xb5, 0x61, 0x76, 0x1b,
-	0xc6, 0x42, 0x3a, 0x26, 0xfb, 0x28, 0xb3, 0xcc, 0x50, 0x77, 0x0c, 0xb5, 0xc4, 0x74, 0x4a, 0x0e,
-	0x4d, 0x58, 0x00, 0x59, 0x26, 0x94, 0xac, 0x44, 0xc6, 0x86, 0x13, 0xf7, 0xe4, 0xe0, 0xec, 0x31,
-	0x6f, 0x3a, 0xe5, 0xba, 0x53, 0x6e, 0x3b, 0xe5, 0x01, 0xa4, 0xc5, 0xf9, 0xee, 0xcd, 0x8f, 0xa7,
-	0x83, 0xd9, 0xef, 0x79, 0xf4, 0x1d, 0xb9, 0xd7, 0x94, 0xed, 0xd5, 0xda, 0xdb, 0xae, 0xd6, 0x5a,
-	0x22, 0x7d, 0x4d, 0x88, 0xa9, 0xff, 0xb6, 0x2e, 0x62, 0x64, 0xfb, 0xdb, 0x95, 0xe9, 0xa5, 0xd0,
-	0x87, 0x64, 0x88, 0x4a, 0xa8, 0x1a, 0xd9, 0xc8, 0xb4, 0x6c, 0x91, 0x1e, 0x93, 0x4a, 0x73, 0x09,
-	0xb5, 0x62, 0x64, 0xe2, 0xea, 0x31, 0x59, 0xa8, 0x07, 0x1f, 0xa7, 0x58, 0xd6, 0x4a, 0x4e, 0x63,
-	0x76, 0xd0, 0x0c, 0x7e, 0x79, 0x71, 0xfc, 0x88, 0x1c, 0xad, 0x38, 0x38, 0x93, 0x58, 0x42, 0x81,
-	0xb2, 0xf5, 0xf6, 0x7d, 0x19, 0xff, 0xf7, 0xf6, 0x9f, 0xf6, 0xb6, 0x73, 0x70, 0xe9, 0xad, 0x30,
-	0xd6, 0xbe, 0x91, 0x99, 0xfc, 0x5b, 0xd6, 0x5a, 0xed, 0x4e, 0xa2, 0xd5, 0x3e, 0xfb, 0xba, 0x43,
-	0xdc, 0x0b, 0x4c, 0xe8, 0x47, 0x42, 0x7a, 0x7b, 0xe3, 0x19, 0xff, 0xe3, 0xaa, 0xe2, 0x2b, 0x6f,
-	0x73, 0xfc, 0x62, 0x9b, 0xa8, 0x56, 0x49, 0x2b, 0xf4, 0x5e, 0xef, 0x06, 0x85, 0x2e, 0x6a, 0x93,
-	0xc2, 0xfa, 0x1c, 0xb5, 0x42, 0x6f, 0x88, 0x1b, 0x14, 0xba, 0xa8, 0x4d, 0x0a, 0xeb, 0xd3, 0x3a,
-	0x0f, 0x6e, 0xe6, 0x9e, 0x73, 0x3b, 0xf7, 0x9c, 0x9f, 0x73, 0xcf, 0xf9, 0xb2, 0xf0, 0x06, 0xb7,
-	0x0b, 0x6f, 0xf0, 0x7d, 0xe1, 0x0d, 0x3e, 0x3c, 0x4f, 0x52, 0xf5, 0xa9, 0x0e, 0x79, 0x04, 0xb9,
-	0x59, 0xe4, 0x2f, 0x75, 0x49, 0xdf, 0x94, 0xf4, 0xaf, 0xfc, 0xf6, 0x4f, 0x70, 0x5d, 0x4a, 0x0c,
-	0x87, 0x66, 0x5b, 0xbf, 0xfa, 0x15, 0x00, 0x00, 0xff, 0xff, 0xbd, 0x1f, 0x5d, 0x21, 0x20, 0x06,
-	0x00, 0x00,
+	// 665 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x56, 0xcd, 0x6e, 0xd3, 0x40,
+	0x10, 0x4e, 0x70, 0xc8, 0xcf, 0x86, 0xaa, 0xb0, 0xa2, 0x60, 0x22, 0x64, 0xa2, 0x88, 0x43, 0x40,
+	0x60, 0xab, 0xe5, 0x01, 0x90, 0x62, 0x7e, 0x14, 0xa1, 0x4a, 0x28, 0xfc, 0x1c, 0x38, 0x61, 0xc7,
+	0x8b, 0x6b, 0xc9, 0xf6, 0x46, 0xde, 0x75, 0xdb, 0xbc, 0x05, 0xaf, 0xc0, 0x9b, 0x70, 0xec, 0xb1,
+	0xdc, 0x38, 0x21, 0x94, 0xbc, 0x08, 0x9a, 0xf5, 0xfa, 0x2f, 0xa9, 0xe2, 0x5c, 0x2a, 0x51, 0xa9,
+	0x97, 0x28, 0x33, 0xf3, 0xcd, 0x7c, 0xda, 0xf9, 0x66, 0xc7, 0x8b, 0x76, 0x09, 0x9b, 0x46, 0xf4,
+	0xc4, 0xe0, 0xa7, 0xfa, 0x2c, 0xa2, 0x9c, 0xe2, 0x3d, 0x30, 0x7d, 0xcb, 0x66, 0xba, 0x6b, 0x05,
+	0x81, 0xa5, 0x27, 0xf1, 0xde, 0x1d, 0x89, 0x83, 0x9f, 0x04, 0x99, 0xb9, 0x8e, 0x29, 0x27, 0xd2,
+	0xa5, 0x4d, 0x29, 0x0b, 0x28, 0x33, 0x6c, 0x8b, 0x11, 0xe3, 0x78, 0xdf, 0x26, 0xdc, 0xda, 0x37,
+	0xa6, 0xd4, 0x0b, 0x65, 0xfc, 0xae, 0x4b, 0x5d, 0x2a, 0xfe, 0x1a, 0xf0, 0x2f, 0xf1, 0x0e, 0x7e,
+	0x2a, 0x68, 0xe7, 0x90, 0xb9, 0x66, 0x44, 0x2c, 0x4e, 0xcc, 0x88, 0x9e, 0x60, 0x15, 0xb5, 0xa6,
+	0x60, 0xd1, 0x48, 0xad, 0xf7, 0xeb, 0xc3, 0xce, 0x24, 0x35, 0xf1, 0x43, 0xd4, 0xf1, 0x3d, 0xc6,
+	0xbd, 0xd0, 0x1d, 0x3b, 0xea, 0x0d, 0x11, 0xcb, 0x1d, 0x90, 0x47, 0x23, 0x87, 0x44, 0x63, 0x47,
+	0x55, 0x92, 0x3c, 0x69, 0x42, 0xc4, 0x8e, 0xe7, 0x22, 0xd2, 0x48, 0x22, 0xd2, 0xc4, 0x3d, 0xd4,
+	0x66, 0xc4, 0xf7, 0x45, 0xe8, 0xa6, 0x08, 0x65, 0x36, 0x1e, 0xa3, 0x5d, 0x01, 0x33, 0xa9, 0xef,
+	0x5b, 0x9c, 0x44, 0x96, 0xaf, 0x36, 0xfb, 0xca, 0xb0, 0x7b, 0xf0, 0x40, 0x4f, 0x4e, 0xaa, 0xc3,
+	0x49, 0x75, 0x79, 0x52, 0xdd, 0xa4, 0x5e, 0x38, 0x6a, 0x9c, 0xfd, 0x79, 0x54, 0x9b, 0xac, 0xe6,
+	0xe1, 0x77, 0xe8, 0x76, 0x52, 0xb6, 0x50, 0xab, 0xb5, 0x5d, 0xad, 0xb5, 0x44, 0xfc, 0x12, 0x21,
+	0x51, 0xff, 0x4d, 0x1c, 0x3a, 0x4c, 0x6d, 0x6f, 0x57, 0xa6, 0x90, 0x82, 0xef, 0xa1, 0x26, 0xe3,
+	0x16, 0x8f, 0x99, 0xda, 0x11, 0x47, 0x96, 0x16, 0xb4, 0x89, 0x7b, 0x01, 0xa1, 0x31, 0x57, 0x51,
+	0x5f, 0x81, 0x36, 0x49, 0x13, 0x1a, 0xef, 0x78, 0x6c, 0x16, 0x73, 0x32, 0x76, 0xd4, 0x6e, 0xd2,
+	0xf8, 0xcc, 0x31, 0xb8, 0x8f, 0xf6, 0x4a, 0x0a, 0x4e, 0x08, 0x9b, 0xd1, 0x90, 0x91, 0x54, 0xdb,
+	0x4f, 0x33, 0xe7, 0x5a, 0xdb, 0x2b, 0xad, 0x6d, 0xae, 0x60, 0xa6, 0xad, 0x25, 0xa4, 0x7d, 0x45,
+	0x7c, 0x72, 0x59, 0xd2, 0x4a, 0xee, 0x9c, 0x22, 0xe3, 0xfe, 0x51, 0xdc, 0x19, 0x9f, 0x29, 0x27,
+	0x1b, 0xc8, 0x55, 0xd4, 0x82, 0x1d, 0x15, 0x65, 0xd4, 0xa9, 0x59, 0x3e, 0xb8, 0xb2, 0x72, 0x70,
+	0x68, 0x24, 0x00, 0xb3, 0xb1, 0x92, 0x16, 0xee, 0xa3, 0xae, 0x68, 0xf7, 0xdb, 0xd8, 0xf3, 0xf9,
+	0x5c, 0x0c, 0x56, 0x7b, 0x52, 0x74, 0xe1, 0x01, 0xba, 0x95, 0xe8, 0x2a, 0x21, 0x4d, 0x01, 0x29,
+	0xf9, 0xf0, 0x6b, 0xb4, 0x13, 0x91, 0x6f, 0x71, 0xe8, 0x7c, 0xa4, 0x23, 0x48, 0xdd, 0x76, 0x62,
+	0xca, 0x59, 0xd8, 0x04, 0x2a, 0x30, 0x3f, 0x88, 0xe2, 0xdb, 0x0e, 0x4c, 0x29, 0x09, 0x0f, 0xe5,
+	0x5d, 0x78, 0x1f, 0x87, 0x1e, 0x3b, 0x0a, 0x48, 0xc8, 0xe5, 0xec, 0xac, 0xba, 0xf1, 0xd3, 0x74,
+	0xd4, 0x0b, 0x50, 0x24, 0xa0, 0x6b, 0xfe, 0xd2, 0x52, 0x00, 0x89, 0x56, 0xc5, 0x4b, 0x46, 0xea,
+	0x5a, 0xbc, 0xff, 0x58, 0xbc, 0x5c, 0xa2, 0x0b, 0x6f, 0xfd, 0xe5, 0x68, 0x57, 0xba, 0xf5, 0x45,
+	0xee, 0x83, 0x5f, 0x0d, 0xa4, 0x1c, 0x32, 0x17, 0x7f, 0x45, 0xa8, 0xf0, 0x5a, 0x78, 0xac, 0x5f,
+	0xf8, 0x66, 0xd1, 0x4b, 0x5f, 0xa4, 0xde, 0xb3, 0x6d, 0x50, 0x29, 0x13, 0x30, 0x14, 0xbe, 0x59,
+	0x1b, 0x18, 0x72, 0xd4, 0x26, 0x86, 0xf5, 0xed, 0x09, 0x0c, 0x85, 0xd5, 0xb9, 0x81, 0x21, 0x47,
+	0x6d, 0x62, 0x58, 0xdf, 0x91, 0x79, 0x97, 0x84, 0x4c, 0x95, 0x5d, 0x02, 0x54, 0x75, 0x97, 0x8a,
+	0x7a, 0xe4, 0x5d, 0xaa, 0x62, 0xc8, 0x51, 0xd5, 0x5d, 0x5a, 0x65, 0x28, 0x8c, 0x5a, 0x65, 0x97,
+	0xaa, 0x18, 0xd6, 0x67, 0x6a, 0x64, 0x9e, 0x2d, 0xb4, 0xfa, 0xf9, 0x42, 0xab, 0xff, 0x5d, 0x68,
+	0xf5, 0xef, 0x4b, 0xad, 0x76, 0xbe, 0xd4, 0x6a, 0xbf, 0x97, 0x5a, 0xed, 0xcb, 0x13, 0xd7, 0xe3,
+	0x47, 0xb1, 0xad, 0x4f, 0x69, 0x20, 0xde, 0xbd, 0xcf, 0xa1, 0xa4, 0x21, 0x4a, 0x1a, 0xa7, 0x46,
+	0xfa, 0x70, 0x9e, 0xcf, 0x08, 0xb3, 0x9b, 0xe2, 0x25, 0xfb, 0xe2, 0x5f, 0x00, 0x00, 0x00, 0xff,
+	0xff, 0x8f, 0x36, 0xce, 0xa1, 0x4f, 0x0b, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -506,6 +923,9 @@ type MsgClient interface {
 	CreateCrow(ctx context.Context, in *MsgCreateCrow, opts ...grpc.CallOption) (*MsgCreateCrowResponse, error)
 	UpdateCrow(ctx context.Context, in *MsgUpdateCrow, opts ...grpc.CallOption) (*MsgUpdateCrowResponse, error)
 	DeleteCrow(ctx context.Context, in *MsgDeleteCrow, opts ...grpc.CallOption) (*MsgDeleteCrowResponse, error)
+	CreateVote(ctx context.Context, in *MsgCreateVote, opts ...grpc.CallOption) (*MsgCreateVoteResponse, error)
+	UpdateVote(ctx context.Context, in *MsgUpdateVote, opts ...grpc.CallOption) (*MsgUpdateVoteResponse, error)
+	DeleteVote(ctx context.Context, in *MsgDeleteVote, opts ...grpc.CallOption) (*MsgDeleteVoteResponse, error)
 }
 
 type msgClient struct {
@@ -543,11 +963,41 @@ func (c *msgClient) DeleteCrow(ctx context.Context, in *MsgDeleteCrow, opts ...g
 	return out, nil
 }
 
+func (c *msgClient) CreateVote(ctx context.Context, in *MsgCreateVote, opts ...grpc.CallOption) (*MsgCreateVoteResponse, error) {
+	out := new(MsgCreateVoteResponse)
+	err := c.cc.Invoke(ctx, "/crowlabs.gamma.escrow.Msg/CreateVote", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) UpdateVote(ctx context.Context, in *MsgUpdateVote, opts ...grpc.CallOption) (*MsgUpdateVoteResponse, error) {
+	out := new(MsgUpdateVoteResponse)
+	err := c.cc.Invoke(ctx, "/crowlabs.gamma.escrow.Msg/UpdateVote", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) DeleteVote(ctx context.Context, in *MsgDeleteVote, opts ...grpc.CallOption) (*MsgDeleteVoteResponse, error) {
+	out := new(MsgDeleteVoteResponse)
+	err := c.cc.Invoke(ctx, "/crowlabs.gamma.escrow.Msg/DeleteVote", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	CreateCrow(context.Context, *MsgCreateCrow) (*MsgCreateCrowResponse, error)
 	UpdateCrow(context.Context, *MsgUpdateCrow) (*MsgUpdateCrowResponse, error)
 	DeleteCrow(context.Context, *MsgDeleteCrow) (*MsgDeleteCrowResponse, error)
+	CreateVote(context.Context, *MsgCreateVote) (*MsgCreateVoteResponse, error)
+	UpdateVote(context.Context, *MsgUpdateVote) (*MsgUpdateVoteResponse, error)
+	DeleteVote(context.Context, *MsgDeleteVote) (*MsgDeleteVoteResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -562,6 +1012,15 @@ func (*UnimplementedMsgServer) UpdateCrow(ctx context.Context, req *MsgUpdateCro
 }
 func (*UnimplementedMsgServer) DeleteCrow(ctx context.Context, req *MsgDeleteCrow) (*MsgDeleteCrowResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCrow not implemented")
+}
+func (*UnimplementedMsgServer) CreateVote(ctx context.Context, req *MsgCreateVote) (*MsgCreateVoteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateVote not implemented")
+}
+func (*UnimplementedMsgServer) UpdateVote(ctx context.Context, req *MsgUpdateVote) (*MsgUpdateVoteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateVote not implemented")
+}
+func (*UnimplementedMsgServer) DeleteVote(ctx context.Context, req *MsgDeleteVote) (*MsgDeleteVoteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteVote not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -622,6 +1081,60 @@ func _Msg_DeleteCrow_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_CreateVote_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgCreateVote)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).CreateVote(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/crowlabs.gamma.escrow.Msg/CreateVote",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).CreateVote(ctx, req.(*MsgCreateVote))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_UpdateVote_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateVote)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UpdateVote(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/crowlabs.gamma.escrow.Msg/UpdateVote",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdateVote(ctx, req.(*MsgUpdateVote))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_DeleteVote_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgDeleteVote)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).DeleteVote(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/crowlabs.gamma.escrow.Msg/DeleteVote",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).DeleteVote(ctx, req.(*MsgDeleteVote))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "crowlabs.gamma.escrow.Msg",
 	HandlerType: (*MsgServer)(nil),
@@ -637,6 +1150,18 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteCrow",
 			Handler:    _Msg_DeleteCrow_Handler,
+		},
+		{
+			MethodName: "CreateVote",
+			Handler:    _Msg_CreateVote_Handler,
+		},
+		{
+			MethodName: "UpdateVote",
+			Handler:    _Msg_UpdateVote_Handler,
+		},
+		{
+			MethodName: "DeleteVote",
+			Handler:    _Msg_DeleteVote_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -1002,6 +1527,345 @@ func (m *MsgDeleteCrowResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgCreateVote) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgCreateVote) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgCreateVote) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.SellerPunishment) > 0 {
+		i -= len(m.SellerPunishment)
+		copy(dAtA[i:], m.SellerPunishment)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.SellerPunishment)))
+		i--
+		dAtA[i] = 0x52
+	}
+	if len(m.BuyerPunishment) > 0 {
+		i -= len(m.BuyerPunishment)
+		copy(dAtA[i:], m.BuyerPunishment)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.BuyerPunishment)))
+		i--
+		dAtA[i] = 0x4a
+	}
+	if len(m.SendToSeller) > 0 {
+		for iNdEx := len(m.SendToSeller) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.SendToSeller[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x42
+		}
+	}
+	if len(m.RefundToBuyer) > 0 {
+		for iNdEx := len(m.RefundToBuyer) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.RefundToBuyer[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x3a
+		}
+	}
+	if m.SellerGuilty {
+		i--
+		if m.SellerGuilty {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x30
+	}
+	if m.BuyerGuilty {
+		i--
+		if m.BuyerGuilty {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x28
+	}
+	if len(m.VoteId) > 0 {
+		i -= len(m.VoteId)
+		copy(dAtA[i:], m.VoteId)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.VoteId)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.DisputeId) > 0 {
+		i -= len(m.DisputeId)
+		copy(dAtA[i:], m.DisputeId)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.DisputeId)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.VoterId) > 0 {
+		i -= len(m.VoterId)
+		copy(dAtA[i:], m.VoterId)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.VoterId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgCreateVoteResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgCreateVoteResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgCreateVoteResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgUpdateVote) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgUpdateVote) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgUpdateVote) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.SellerPunishment) > 0 {
+		i -= len(m.SellerPunishment)
+		copy(dAtA[i:], m.SellerPunishment)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.SellerPunishment)))
+		i--
+		dAtA[i] = 0x52
+	}
+	if len(m.BuyerPunishment) > 0 {
+		i -= len(m.BuyerPunishment)
+		copy(dAtA[i:], m.BuyerPunishment)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.BuyerPunishment)))
+		i--
+		dAtA[i] = 0x4a
+	}
+	if len(m.SendToSeller) > 0 {
+		for iNdEx := len(m.SendToSeller) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.SendToSeller[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x42
+		}
+	}
+	if len(m.RefundToBuyer) > 0 {
+		for iNdEx := len(m.RefundToBuyer) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.RefundToBuyer[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x3a
+		}
+	}
+	if m.SellerGuilty {
+		i--
+		if m.SellerGuilty {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x30
+	}
+	if m.BuyerGuilty {
+		i--
+		if m.BuyerGuilty {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x28
+	}
+	if len(m.VoteId) > 0 {
+		i -= len(m.VoteId)
+		copy(dAtA[i:], m.VoteId)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.VoteId)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.DisputeId) > 0 {
+		i -= len(m.DisputeId)
+		copy(dAtA[i:], m.DisputeId)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.DisputeId)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.VoterId) > 0 {
+		i -= len(m.VoterId)
+		copy(dAtA[i:], m.VoterId)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.VoterId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgUpdateVoteResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgUpdateVoteResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgUpdateVoteResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgDeleteVote) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgDeleteVote) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgDeleteVote) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.DisputeId) > 0 {
+		i -= len(m.DisputeId)
+		copy(dAtA[i:], m.DisputeId)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.DisputeId)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.VoterId) > 0 {
+		i -= len(m.VoterId)
+		copy(dAtA[i:], m.VoterId)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.VoterId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgDeleteVoteResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgDeleteVoteResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgDeleteVoteResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -1175,6 +2039,156 @@ func (m *MsgDeleteCrow) Size() (n int) {
 }
 
 func (m *MsgDeleteCrowResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgCreateVote) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.VoterId)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.DisputeId)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.VoteId)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.BuyerGuilty {
+		n += 2
+	}
+	if m.SellerGuilty {
+		n += 2
+	}
+	if len(m.RefundToBuyer) > 0 {
+		for _, e := range m.RefundToBuyer {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
+	}
+	if len(m.SendToSeller) > 0 {
+		for _, e := range m.SendToSeller {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
+	}
+	l = len(m.BuyerPunishment)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.SellerPunishment)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgCreateVoteResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgUpdateVote) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.VoterId)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.DisputeId)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.VoteId)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.BuyerGuilty {
+		n += 2
+	}
+	if m.SellerGuilty {
+		n += 2
+	}
+	if len(m.RefundToBuyer) > 0 {
+		for _, e := range m.RefundToBuyer {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
+	}
+	if len(m.SendToSeller) > 0 {
+		for _, e := range m.SendToSeller {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
+	}
+	l = len(m.BuyerPunishment)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.SellerPunishment)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgUpdateVoteResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgDeleteVote) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.VoterId)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.DisputeId)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgDeleteVoteResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2278,6 +3292,1002 @@ func (m *MsgDeleteCrowResponse) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: MsgDeleteCrowResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgCreateVote) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgCreateVote: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgCreateVote: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VoterId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.VoterId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field DisputeId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.DisputeId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VoteId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.VoteId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field BuyerGuilty", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.BuyerGuilty = bool(v != 0)
+		case 6:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SellerGuilty", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.SellerGuilty = bool(v != 0)
+		case 7:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RefundToBuyer", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.RefundToBuyer = append(m.RefundToBuyer, types.Coin{})
+			if err := m.RefundToBuyer[len(m.RefundToBuyer)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 8:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SendToSeller", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SendToSeller = append(m.SendToSeller, types.Coin{})
+			if err := m.SendToSeller[len(m.SendToSeller)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 9:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field BuyerPunishment", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.BuyerPunishment = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 10:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SellerPunishment", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SellerPunishment = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgCreateVoteResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgCreateVoteResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgCreateVoteResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgUpdateVote) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgUpdateVote: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgUpdateVote: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VoterId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.VoterId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field DisputeId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.DisputeId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VoteId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.VoteId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field BuyerGuilty", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.BuyerGuilty = bool(v != 0)
+		case 6:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SellerGuilty", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.SellerGuilty = bool(v != 0)
+		case 7:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RefundToBuyer", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.RefundToBuyer = append(m.RefundToBuyer, types.Coin{})
+			if err := m.RefundToBuyer[len(m.RefundToBuyer)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 8:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SendToSeller", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SendToSeller = append(m.SendToSeller, types.Coin{})
+			if err := m.SendToSeller[len(m.SendToSeller)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 9:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field BuyerPunishment", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.BuyerPunishment = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 10:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SellerPunishment", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SellerPunishment = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgUpdateVoteResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgUpdateVoteResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgUpdateVoteResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgDeleteVote) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgDeleteVote: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgDeleteVote: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VoterId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.VoterId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field DisputeId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.DisputeId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgDeleteVoteResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgDeleteVoteResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgDeleteVoteResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

@@ -24,6 +24,16 @@ func TestGenesis(t *testing.T) {
 				OrderId:   "1",
 			},
 		},
+		VoteList: []types.Vote{
+			{
+				VoterId:   "0",
+				DisputeId: "0",
+			},
+			{
+				VoterId:   "1",
+				DisputeId: "1",
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -38,5 +48,6 @@ func TestGenesis(t *testing.T) {
 	require.Equal(t, genesisState.PortId, got.PortId)
 
 	require.ElementsMatch(t, genesisState.CrowList, got.CrowList)
+	require.ElementsMatch(t, genesisState.VoteList, got.VoteList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

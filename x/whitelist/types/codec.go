@@ -14,6 +14,9 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateBuyers{}, "whitelist/CreateBuyers", nil)
 	cdc.RegisterConcrete(&MsgUpdateBuyers{}, "whitelist/UpdateBuyers", nil)
 	cdc.RegisterConcrete(&MsgDeleteBuyers{}, "whitelist/DeleteBuyers", nil)
+	cdc.RegisterConcrete(&MsgCreateVoter{}, "whitelist/CreateVoter", nil)
+	cdc.RegisterConcrete(&MsgUpdateVoter{}, "whitelist/UpdateVoter", nil)
+	cdc.RegisterConcrete(&MsgDeleteVoter{}, "whitelist/DeleteVoter", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -27,6 +30,11 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgCreateBuyers{},
 		&MsgUpdateBuyers{},
 		&MsgDeleteBuyers{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgCreateVoter{},
+		&MsgUpdateVoter{},
+		&MsgDeleteVoter{},
 	)
 	// this line is used by starport scaffolding # 3
 

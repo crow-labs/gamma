@@ -2,6 +2,7 @@
 import { Params } from "../whitelist/params";
 import { BuyerIds } from "../whitelist/buyer_ids";
 import { Buyers } from "../whitelist/buyers";
+import { Voter } from "../whitelist/voter";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "crowlabs.gamma.whitelist";
@@ -10,8 +11,9 @@ export const protobufPackage = "crowlabs.gamma.whitelist";
 export interface GenesisState {
   params: Params | undefined;
   buyerIdsList: BuyerIds[];
-  /** this line is used by starport scaffolding # genesis/proto/state */
   buyersList: Buyers[];
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  voterList: Voter[];
 }
 
 const baseGenesisState: object = {};
@@ -27,6 +29,9 @@ export const GenesisState = {
     for (const v of message.buyersList) {
       Buyers.encode(v!, writer.uint32(26).fork()).ldelim();
     }
+    for (const v of message.voterList) {
+      Voter.encode(v!, writer.uint32(34).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -36,6 +41,7 @@ export const GenesisState = {
     const message = { ...baseGenesisState } as GenesisState;
     message.buyerIdsList = [];
     message.buyersList = [];
+    message.voterList = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -47,6 +53,9 @@ export const GenesisState = {
           break;
         case 3:
           message.buyersList.push(Buyers.decode(reader, reader.uint32()));
+          break;
+        case 4:
+          message.voterList.push(Voter.decode(reader, reader.uint32()));
           break;
         default:
           reader.skipType(tag & 7);
@@ -60,6 +69,7 @@ export const GenesisState = {
     const message = { ...baseGenesisState } as GenesisState;
     message.buyerIdsList = [];
     message.buyersList = [];
+    message.voterList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromJSON(object.params);
     } else {
@@ -73,6 +83,11 @@ export const GenesisState = {
     if (object.buyersList !== undefined && object.buyersList !== null) {
       for (const e of object.buyersList) {
         message.buyersList.push(Buyers.fromJSON(e));
+      }
+    }
+    if (object.voterList !== undefined && object.voterList !== null) {
+      for (const e of object.voterList) {
+        message.voterList.push(Voter.fromJSON(e));
       }
     }
     return message;
@@ -96,6 +111,13 @@ export const GenesisState = {
     } else {
       obj.buyersList = [];
     }
+    if (message.voterList) {
+      obj.voterList = message.voterList.map((e) =>
+        e ? Voter.toJSON(e) : undefined
+      );
+    } else {
+      obj.voterList = [];
+    }
     return obj;
   },
 
@@ -103,6 +125,7 @@ export const GenesisState = {
     const message = { ...baseGenesisState } as GenesisState;
     message.buyerIdsList = [];
     message.buyersList = [];
+    message.voterList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
     } else {
@@ -116,6 +139,11 @@ export const GenesisState = {
     if (object.buyersList !== undefined && object.buyersList !== null) {
       for (const e of object.buyersList) {
         message.buyersList.push(Buyers.fromPartial(e));
+      }
+    }
+    if (object.voterList !== undefined && object.voterList !== null) {
+      for (const e of object.voterList) {
+        message.voterList.push(Voter.fromPartial(e));
       }
     }
     return message;

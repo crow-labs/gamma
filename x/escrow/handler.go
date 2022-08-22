@@ -26,6 +26,15 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgDeleteCrow:
 			res, err := msgServer.DeleteCrow(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgCreateVote:
+			res, err := msgServer.CreateVote(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgUpdateVote:
+			res, err := msgServer.UpdateVote(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgDeleteVote:
+			res, err := msgServer.DeleteVote(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
 			// this line is used by starport scaffolding # 1
 		default:
 			errMsg := fmt.Sprintf("unrecognized %s message type: %T", types.ModuleName, msg)

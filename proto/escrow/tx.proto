@@ -2,6 +2,7 @@ syntax = "proto3";
 package crowlabs.gamma.escrow;
 
 import "escrow/crow.proto";
+import "escrow/vote.proto";
 // this line is used by starport scaffolding # proto/tx/import
 import "cosmos/base/v1beta1/coin.proto";
 import "gogoproto/gogo.proto";
@@ -13,6 +14,9 @@ service Msg {
       rpc CreateCrow(MsgCreateCrow) returns (MsgCreateCrowResponse);
   rpc UpdateCrow(MsgUpdateCrow) returns (MsgUpdateCrowResponse);
   rpc DeleteCrow(MsgDeleteCrow) returns (MsgDeleteCrowResponse);
+  rpc CreateVote(MsgCreateVote) returns (MsgCreateVoteResponse);
+  rpc UpdateVote(MsgUpdateVote) returns (MsgUpdateVoteResponse);
+  rpc DeleteVote(MsgDeleteVote) returns (MsgDeleteVoteResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -54,5 +58,42 @@ message MsgDeleteCrow {
   string orderId = 3;
 }
 message MsgDeleteCrowResponse {}
+
+message MsgCreateVote {
+  string creator = 1;
+  string voterId = 2;
+  string disputeId = 3;
+
+  string voteId = 4;
+  bool buyerGuilty = 5;
+  bool sellerGuilty = 6;
+  repeated cosmos.base.v1beta1.Coin refundToBuyer = 7 [(gogoproto.nullable) = false];
+  repeated cosmos.base.v1beta1.Coin sendToSeller = 8 [(gogoproto.nullable) = false];
+  string buyerPunishment = 9;
+  string sellerPunishment = 10;
+}
+message MsgCreateVoteResponse {}
+
+message MsgUpdateVote {
+  string creator = 1;
+  string voterId = 2;
+  string disputeId = 3;
+
+  string voteId = 4;
+  bool buyerGuilty = 5;
+  bool sellerGuilty = 6;
+  repeated cosmos.base.v1beta1.Coin refundToBuyer = 7 [(gogoproto.nullable) = false];
+  repeated cosmos.base.v1beta1.Coin sendToSeller = 8 [(gogoproto.nullable) = false];
+  string buyerPunishment = 9;
+  string sellerPunishment = 10;
+}
+message MsgUpdateVoteResponse {}
+
+message MsgDeleteVote {
+  string creator = 1;
+  string voterId = 2;
+  string disputeId = 3;
+}
+message MsgDeleteVoteResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message

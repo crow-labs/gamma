@@ -5,6 +5,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "escrow/params.proto";
 import "escrow/crow.proto";
+import "escrow/vote.proto";
 // this line is used by starport scaffolding # 1
 import "cosmos/base/v1beta1/coin.proto";
 import "gogoproto/gogo.proto";
@@ -25,6 +26,16 @@ service Query {
 	// Queries a list of Crow items.
 	rpc CrowAll(QueryAllCrowRequest) returns (QueryAllCrowResponse) {
 		option (google.api.http).get = "/crow-labs/gamma/escrow/crow";
+	}
+
+// Queries a Vote by index.
+	rpc Vote(QueryGetVoteRequest) returns (QueryGetVoteResponse) {
+		option (google.api.http).get = "/crow-labs/gamma/escrow/vote/{voterId}/{disputeId}";
+	}
+
+	// Queries a list of Vote items.
+	rpc VoteAll(QueryAllVoteRequest) returns (QueryAllVoteResponse) {
+		option (google.api.http).get = "/crow-labs/gamma/escrow/vote";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -55,6 +66,25 @@ message QueryAllCrowRequest {
 
 message QueryAllCrowResponse {
 	repeated Crow crow = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetVoteRequest {
+	  string voterId = 1;
+  string disputeId = 2;
+
+}
+
+message QueryGetVoteResponse {
+	Vote vote = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllVoteRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllVoteResponse {
+	repeated Vote vote = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

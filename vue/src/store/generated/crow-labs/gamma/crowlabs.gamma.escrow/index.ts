@@ -4,9 +4,10 @@ import { Crow } from "./module/types/escrow/crow"
 import { EscrowPacketData } from "./module/types/escrow/packet"
 import { NoData } from "./module/types/escrow/packet"
 import { Params } from "./module/types/escrow/params"
+import { Vote } from "./module/types/escrow/vote"
 
 
-export { Crow, EscrowPacketData, NoData, Params };
+export { Crow, EscrowPacketData, NoData, Params, Vote };
 
 async function initTxClient(vuexGetters) {
 	return await txClient(vuexGetters['common/wallet/signer'], {
@@ -47,12 +48,15 @@ const getDefaultState = () => {
 				Params: {},
 				Crow: {},
 				CrowAll: {},
+				Vote: {},
+				VoteAll: {},
 				
 				_Structure: {
 						Crow: getStructure(Crow.fromPartial({})),
 						EscrowPacketData: getStructure(EscrowPacketData.fromPartial({})),
 						NoData: getStructure(NoData.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),
+						Vote: getStructure(Vote.fromPartial({})),
 						
 		},
 		_Registry: registry,
@@ -98,6 +102,18 @@ export default {
 						(<any> params).query=null
 					}
 			return state.CrowAll[JSON.stringify(params)] ?? {}
+		},
+				getVote: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.Vote[JSON.stringify(params)] ?? {}
+		},
+				getVoteAll: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.VoteAll[JSON.stringify(params)] ?? {}
 		},
 				
 		getTypeStructure: (state) => (type) => {
@@ -203,18 +219,96 @@ export default {
 		},
 		
 		
-		async sendMsgDeleteCrow({ rootGetters }, { value, fee = [], memo = '' }) {
+		
+		
+		 		
+		
+		
+		async QueryVote({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryVote( key.voterId,  key.disputeId)).data
+				
+					
+				commit('QUERY', { query: 'Vote', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryVote', payload: { options: { all }, params: {...key},query }})
+				return getters['getVote']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryVote API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryVoteAll({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryVoteAll(query)).data
+				
+					
+				while (all && (<any> value).pagination && (<any> value).pagination.next_key!=null) {
+					let next_values=(await queryClient.queryVoteAll({...query, 'pagination.key':(<any> value).pagination.next_key})).data
+					value = mergeResults(value, next_values);
+				}
+				commit('QUERY', { query: 'VoteAll', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryVoteAll', payload: { options: { all }, params: {...key},query }})
+				return getters['getVoteAll']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryVoteAll API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		async sendMsgCreateVote({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgDeleteCrow(value)
+				const msg = await txClient.msgCreateVote(value)
 				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgDeleteCrow:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgCreateVote:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgDeleteCrow:Send Could not broadcast Tx: '+ e.message)
+					throw new Error('TxClient:MsgCreateVote:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgUpdateVote({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgUpdateVote(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgUpdateVote:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgUpdateVote:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgDeleteVote({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgDeleteVote(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgDeleteVote:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgDeleteVote:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -230,6 +324,21 @@ export default {
 					throw new Error('TxClient:MsgCreateCrow:Init Could not initialize signing client. Wallet is required.')
 				}else{
 					throw new Error('TxClient:MsgCreateCrow:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgDeleteCrow({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgDeleteCrow(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgDeleteCrow:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgDeleteCrow:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -249,16 +358,42 @@ export default {
 			}
 		},
 		
-		async MsgDeleteCrow({ rootGetters }, { value }) {
+		async MsgCreateVote({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgDeleteCrow(value)
+				const msg = await txClient.msgCreateVote(value)
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgDeleteCrow:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgCreateVote:Init Could not initialize signing client. Wallet is required.')
 				} else{
-					throw new Error('TxClient:MsgDeleteCrow:Create Could not create message: ' + e.message)
+					throw new Error('TxClient:MsgCreateVote:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgUpdateVote({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgUpdateVote(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgUpdateVote:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgUpdateVote:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgDeleteVote({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgDeleteVote(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgDeleteVote:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgDeleteVote:Create Could not create message: ' + e.message)
 				}
 			}
 		},
@@ -272,6 +407,19 @@ export default {
 					throw new Error('TxClient:MsgCreateCrow:Init Could not initialize signing client. Wallet is required.')
 				} else{
 					throw new Error('TxClient:MsgCreateCrow:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgDeleteCrow({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgDeleteCrow(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgDeleteCrow:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgDeleteCrow:Create Could not create message: ' + e.message)
 				}
 			}
 		},

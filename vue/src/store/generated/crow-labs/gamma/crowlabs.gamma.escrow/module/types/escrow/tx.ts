@@ -44,6 +44,44 @@ export interface MsgDeleteCrow {
 
 export interface MsgDeleteCrowResponse {}
 
+export interface MsgCreateVote {
+  creator: string;
+  voterId: string;
+  disputeId: string;
+  voteId: string;
+  buyerGuilty: boolean;
+  sellerGuilty: boolean;
+  refundToBuyer: Coin[];
+  sendToSeller: Coin[];
+  buyerPunishment: string;
+  sellerPunishment: string;
+}
+
+export interface MsgCreateVoteResponse {}
+
+export interface MsgUpdateVote {
+  creator: string;
+  voterId: string;
+  disputeId: string;
+  voteId: string;
+  buyerGuilty: boolean;
+  sellerGuilty: boolean;
+  refundToBuyer: Coin[];
+  sendToSeller: Coin[];
+  buyerPunishment: string;
+  sellerPunishment: string;
+}
+
+export interface MsgUpdateVoteResponse {}
+
+export interface MsgDeleteVote {
+  creator: string;
+  voterId: string;
+  disputeId: string;
+}
+
+export interface MsgDeleteVoteResponse {}
+
 const baseMsgCreateCrow: object = {
   creator: "",
   listingId: "",
@@ -807,12 +845,720 @@ export const MsgDeleteCrowResponse = {
   },
 };
 
+const baseMsgCreateVote: object = {
+  creator: "",
+  voterId: "",
+  disputeId: "",
+  voteId: "",
+  buyerGuilty: false,
+  sellerGuilty: false,
+  buyerPunishment: "",
+  sellerPunishment: "",
+};
+
+export const MsgCreateVote = {
+  encode(message: MsgCreateVote, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.voterId !== "") {
+      writer.uint32(18).string(message.voterId);
+    }
+    if (message.disputeId !== "") {
+      writer.uint32(26).string(message.disputeId);
+    }
+    if (message.voteId !== "") {
+      writer.uint32(34).string(message.voteId);
+    }
+    if (message.buyerGuilty === true) {
+      writer.uint32(40).bool(message.buyerGuilty);
+    }
+    if (message.sellerGuilty === true) {
+      writer.uint32(48).bool(message.sellerGuilty);
+    }
+    for (const v of message.refundToBuyer) {
+      Coin.encode(v!, writer.uint32(58).fork()).ldelim();
+    }
+    for (const v of message.sendToSeller) {
+      Coin.encode(v!, writer.uint32(66).fork()).ldelim();
+    }
+    if (message.buyerPunishment !== "") {
+      writer.uint32(74).string(message.buyerPunishment);
+    }
+    if (message.sellerPunishment !== "") {
+      writer.uint32(82).string(message.sellerPunishment);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgCreateVote {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgCreateVote } as MsgCreateVote;
+    message.refundToBuyer = [];
+    message.sendToSeller = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.voterId = reader.string();
+          break;
+        case 3:
+          message.disputeId = reader.string();
+          break;
+        case 4:
+          message.voteId = reader.string();
+          break;
+        case 5:
+          message.buyerGuilty = reader.bool();
+          break;
+        case 6:
+          message.sellerGuilty = reader.bool();
+          break;
+        case 7:
+          message.refundToBuyer.push(Coin.decode(reader, reader.uint32()));
+          break;
+        case 8:
+          message.sendToSeller.push(Coin.decode(reader, reader.uint32()));
+          break;
+        case 9:
+          message.buyerPunishment = reader.string();
+          break;
+        case 10:
+          message.sellerPunishment = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgCreateVote {
+    const message = { ...baseMsgCreateVote } as MsgCreateVote;
+    message.refundToBuyer = [];
+    message.sendToSeller = [];
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.voterId !== undefined && object.voterId !== null) {
+      message.voterId = String(object.voterId);
+    } else {
+      message.voterId = "";
+    }
+    if (object.disputeId !== undefined && object.disputeId !== null) {
+      message.disputeId = String(object.disputeId);
+    } else {
+      message.disputeId = "";
+    }
+    if (object.voteId !== undefined && object.voteId !== null) {
+      message.voteId = String(object.voteId);
+    } else {
+      message.voteId = "";
+    }
+    if (object.buyerGuilty !== undefined && object.buyerGuilty !== null) {
+      message.buyerGuilty = Boolean(object.buyerGuilty);
+    } else {
+      message.buyerGuilty = false;
+    }
+    if (object.sellerGuilty !== undefined && object.sellerGuilty !== null) {
+      message.sellerGuilty = Boolean(object.sellerGuilty);
+    } else {
+      message.sellerGuilty = false;
+    }
+    if (object.refundToBuyer !== undefined && object.refundToBuyer !== null) {
+      for (const e of object.refundToBuyer) {
+        message.refundToBuyer.push(Coin.fromJSON(e));
+      }
+    }
+    if (object.sendToSeller !== undefined && object.sendToSeller !== null) {
+      for (const e of object.sendToSeller) {
+        message.sendToSeller.push(Coin.fromJSON(e));
+      }
+    }
+    if (
+      object.buyerPunishment !== undefined &&
+      object.buyerPunishment !== null
+    ) {
+      message.buyerPunishment = String(object.buyerPunishment);
+    } else {
+      message.buyerPunishment = "";
+    }
+    if (
+      object.sellerPunishment !== undefined &&
+      object.sellerPunishment !== null
+    ) {
+      message.sellerPunishment = String(object.sellerPunishment);
+    } else {
+      message.sellerPunishment = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgCreateVote): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.voterId !== undefined && (obj.voterId = message.voterId);
+    message.disputeId !== undefined && (obj.disputeId = message.disputeId);
+    message.voteId !== undefined && (obj.voteId = message.voteId);
+    message.buyerGuilty !== undefined &&
+      (obj.buyerGuilty = message.buyerGuilty);
+    message.sellerGuilty !== undefined &&
+      (obj.sellerGuilty = message.sellerGuilty);
+    if (message.refundToBuyer) {
+      obj.refundToBuyer = message.refundToBuyer.map((e) =>
+        e ? Coin.toJSON(e) : undefined
+      );
+    } else {
+      obj.refundToBuyer = [];
+    }
+    if (message.sendToSeller) {
+      obj.sendToSeller = message.sendToSeller.map((e) =>
+        e ? Coin.toJSON(e) : undefined
+      );
+    } else {
+      obj.sendToSeller = [];
+    }
+    message.buyerPunishment !== undefined &&
+      (obj.buyerPunishment = message.buyerPunishment);
+    message.sellerPunishment !== undefined &&
+      (obj.sellerPunishment = message.sellerPunishment);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgCreateVote>): MsgCreateVote {
+    const message = { ...baseMsgCreateVote } as MsgCreateVote;
+    message.refundToBuyer = [];
+    message.sendToSeller = [];
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.voterId !== undefined && object.voterId !== null) {
+      message.voterId = object.voterId;
+    } else {
+      message.voterId = "";
+    }
+    if (object.disputeId !== undefined && object.disputeId !== null) {
+      message.disputeId = object.disputeId;
+    } else {
+      message.disputeId = "";
+    }
+    if (object.voteId !== undefined && object.voteId !== null) {
+      message.voteId = object.voteId;
+    } else {
+      message.voteId = "";
+    }
+    if (object.buyerGuilty !== undefined && object.buyerGuilty !== null) {
+      message.buyerGuilty = object.buyerGuilty;
+    } else {
+      message.buyerGuilty = false;
+    }
+    if (object.sellerGuilty !== undefined && object.sellerGuilty !== null) {
+      message.sellerGuilty = object.sellerGuilty;
+    } else {
+      message.sellerGuilty = false;
+    }
+    if (object.refundToBuyer !== undefined && object.refundToBuyer !== null) {
+      for (const e of object.refundToBuyer) {
+        message.refundToBuyer.push(Coin.fromPartial(e));
+      }
+    }
+    if (object.sendToSeller !== undefined && object.sendToSeller !== null) {
+      for (const e of object.sendToSeller) {
+        message.sendToSeller.push(Coin.fromPartial(e));
+      }
+    }
+    if (
+      object.buyerPunishment !== undefined &&
+      object.buyerPunishment !== null
+    ) {
+      message.buyerPunishment = object.buyerPunishment;
+    } else {
+      message.buyerPunishment = "";
+    }
+    if (
+      object.sellerPunishment !== undefined &&
+      object.sellerPunishment !== null
+    ) {
+      message.sellerPunishment = object.sellerPunishment;
+    } else {
+      message.sellerPunishment = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgCreateVoteResponse: object = {};
+
+export const MsgCreateVoteResponse = {
+  encode(_: MsgCreateVoteResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgCreateVoteResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgCreateVoteResponse } as MsgCreateVoteResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgCreateVoteResponse {
+    const message = { ...baseMsgCreateVoteResponse } as MsgCreateVoteResponse;
+    return message;
+  },
+
+  toJSON(_: MsgCreateVoteResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgCreateVoteResponse>): MsgCreateVoteResponse {
+    const message = { ...baseMsgCreateVoteResponse } as MsgCreateVoteResponse;
+    return message;
+  },
+};
+
+const baseMsgUpdateVote: object = {
+  creator: "",
+  voterId: "",
+  disputeId: "",
+  voteId: "",
+  buyerGuilty: false,
+  sellerGuilty: false,
+  buyerPunishment: "",
+  sellerPunishment: "",
+};
+
+export const MsgUpdateVote = {
+  encode(message: MsgUpdateVote, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.voterId !== "") {
+      writer.uint32(18).string(message.voterId);
+    }
+    if (message.disputeId !== "") {
+      writer.uint32(26).string(message.disputeId);
+    }
+    if (message.voteId !== "") {
+      writer.uint32(34).string(message.voteId);
+    }
+    if (message.buyerGuilty === true) {
+      writer.uint32(40).bool(message.buyerGuilty);
+    }
+    if (message.sellerGuilty === true) {
+      writer.uint32(48).bool(message.sellerGuilty);
+    }
+    for (const v of message.refundToBuyer) {
+      Coin.encode(v!, writer.uint32(58).fork()).ldelim();
+    }
+    for (const v of message.sendToSeller) {
+      Coin.encode(v!, writer.uint32(66).fork()).ldelim();
+    }
+    if (message.buyerPunishment !== "") {
+      writer.uint32(74).string(message.buyerPunishment);
+    }
+    if (message.sellerPunishment !== "") {
+      writer.uint32(82).string(message.sellerPunishment);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgUpdateVote {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgUpdateVote } as MsgUpdateVote;
+    message.refundToBuyer = [];
+    message.sendToSeller = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.voterId = reader.string();
+          break;
+        case 3:
+          message.disputeId = reader.string();
+          break;
+        case 4:
+          message.voteId = reader.string();
+          break;
+        case 5:
+          message.buyerGuilty = reader.bool();
+          break;
+        case 6:
+          message.sellerGuilty = reader.bool();
+          break;
+        case 7:
+          message.refundToBuyer.push(Coin.decode(reader, reader.uint32()));
+          break;
+        case 8:
+          message.sendToSeller.push(Coin.decode(reader, reader.uint32()));
+          break;
+        case 9:
+          message.buyerPunishment = reader.string();
+          break;
+        case 10:
+          message.sellerPunishment = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgUpdateVote {
+    const message = { ...baseMsgUpdateVote } as MsgUpdateVote;
+    message.refundToBuyer = [];
+    message.sendToSeller = [];
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.voterId !== undefined && object.voterId !== null) {
+      message.voterId = String(object.voterId);
+    } else {
+      message.voterId = "";
+    }
+    if (object.disputeId !== undefined && object.disputeId !== null) {
+      message.disputeId = String(object.disputeId);
+    } else {
+      message.disputeId = "";
+    }
+    if (object.voteId !== undefined && object.voteId !== null) {
+      message.voteId = String(object.voteId);
+    } else {
+      message.voteId = "";
+    }
+    if (object.buyerGuilty !== undefined && object.buyerGuilty !== null) {
+      message.buyerGuilty = Boolean(object.buyerGuilty);
+    } else {
+      message.buyerGuilty = false;
+    }
+    if (object.sellerGuilty !== undefined && object.sellerGuilty !== null) {
+      message.sellerGuilty = Boolean(object.sellerGuilty);
+    } else {
+      message.sellerGuilty = false;
+    }
+    if (object.refundToBuyer !== undefined && object.refundToBuyer !== null) {
+      for (const e of object.refundToBuyer) {
+        message.refundToBuyer.push(Coin.fromJSON(e));
+      }
+    }
+    if (object.sendToSeller !== undefined && object.sendToSeller !== null) {
+      for (const e of object.sendToSeller) {
+        message.sendToSeller.push(Coin.fromJSON(e));
+      }
+    }
+    if (
+      object.buyerPunishment !== undefined &&
+      object.buyerPunishment !== null
+    ) {
+      message.buyerPunishment = String(object.buyerPunishment);
+    } else {
+      message.buyerPunishment = "";
+    }
+    if (
+      object.sellerPunishment !== undefined &&
+      object.sellerPunishment !== null
+    ) {
+      message.sellerPunishment = String(object.sellerPunishment);
+    } else {
+      message.sellerPunishment = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgUpdateVote): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.voterId !== undefined && (obj.voterId = message.voterId);
+    message.disputeId !== undefined && (obj.disputeId = message.disputeId);
+    message.voteId !== undefined && (obj.voteId = message.voteId);
+    message.buyerGuilty !== undefined &&
+      (obj.buyerGuilty = message.buyerGuilty);
+    message.sellerGuilty !== undefined &&
+      (obj.sellerGuilty = message.sellerGuilty);
+    if (message.refundToBuyer) {
+      obj.refundToBuyer = message.refundToBuyer.map((e) =>
+        e ? Coin.toJSON(e) : undefined
+      );
+    } else {
+      obj.refundToBuyer = [];
+    }
+    if (message.sendToSeller) {
+      obj.sendToSeller = message.sendToSeller.map((e) =>
+        e ? Coin.toJSON(e) : undefined
+      );
+    } else {
+      obj.sendToSeller = [];
+    }
+    message.buyerPunishment !== undefined &&
+      (obj.buyerPunishment = message.buyerPunishment);
+    message.sellerPunishment !== undefined &&
+      (obj.sellerPunishment = message.sellerPunishment);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgUpdateVote>): MsgUpdateVote {
+    const message = { ...baseMsgUpdateVote } as MsgUpdateVote;
+    message.refundToBuyer = [];
+    message.sendToSeller = [];
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.voterId !== undefined && object.voterId !== null) {
+      message.voterId = object.voterId;
+    } else {
+      message.voterId = "";
+    }
+    if (object.disputeId !== undefined && object.disputeId !== null) {
+      message.disputeId = object.disputeId;
+    } else {
+      message.disputeId = "";
+    }
+    if (object.voteId !== undefined && object.voteId !== null) {
+      message.voteId = object.voteId;
+    } else {
+      message.voteId = "";
+    }
+    if (object.buyerGuilty !== undefined && object.buyerGuilty !== null) {
+      message.buyerGuilty = object.buyerGuilty;
+    } else {
+      message.buyerGuilty = false;
+    }
+    if (object.sellerGuilty !== undefined && object.sellerGuilty !== null) {
+      message.sellerGuilty = object.sellerGuilty;
+    } else {
+      message.sellerGuilty = false;
+    }
+    if (object.refundToBuyer !== undefined && object.refundToBuyer !== null) {
+      for (const e of object.refundToBuyer) {
+        message.refundToBuyer.push(Coin.fromPartial(e));
+      }
+    }
+    if (object.sendToSeller !== undefined && object.sendToSeller !== null) {
+      for (const e of object.sendToSeller) {
+        message.sendToSeller.push(Coin.fromPartial(e));
+      }
+    }
+    if (
+      object.buyerPunishment !== undefined &&
+      object.buyerPunishment !== null
+    ) {
+      message.buyerPunishment = object.buyerPunishment;
+    } else {
+      message.buyerPunishment = "";
+    }
+    if (
+      object.sellerPunishment !== undefined &&
+      object.sellerPunishment !== null
+    ) {
+      message.sellerPunishment = object.sellerPunishment;
+    } else {
+      message.sellerPunishment = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgUpdateVoteResponse: object = {};
+
+export const MsgUpdateVoteResponse = {
+  encode(_: MsgUpdateVoteResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgUpdateVoteResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgUpdateVoteResponse } as MsgUpdateVoteResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgUpdateVoteResponse {
+    const message = { ...baseMsgUpdateVoteResponse } as MsgUpdateVoteResponse;
+    return message;
+  },
+
+  toJSON(_: MsgUpdateVoteResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgUpdateVoteResponse>): MsgUpdateVoteResponse {
+    const message = { ...baseMsgUpdateVoteResponse } as MsgUpdateVoteResponse;
+    return message;
+  },
+};
+
+const baseMsgDeleteVote: object = { creator: "", voterId: "", disputeId: "" };
+
+export const MsgDeleteVote = {
+  encode(message: MsgDeleteVote, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.voterId !== "") {
+      writer.uint32(18).string(message.voterId);
+    }
+    if (message.disputeId !== "") {
+      writer.uint32(26).string(message.disputeId);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgDeleteVote {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgDeleteVote } as MsgDeleteVote;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.voterId = reader.string();
+          break;
+        case 3:
+          message.disputeId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgDeleteVote {
+    const message = { ...baseMsgDeleteVote } as MsgDeleteVote;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.voterId !== undefined && object.voterId !== null) {
+      message.voterId = String(object.voterId);
+    } else {
+      message.voterId = "";
+    }
+    if (object.disputeId !== undefined && object.disputeId !== null) {
+      message.disputeId = String(object.disputeId);
+    } else {
+      message.disputeId = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgDeleteVote): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.voterId !== undefined && (obj.voterId = message.voterId);
+    message.disputeId !== undefined && (obj.disputeId = message.disputeId);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgDeleteVote>): MsgDeleteVote {
+    const message = { ...baseMsgDeleteVote } as MsgDeleteVote;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.voterId !== undefined && object.voterId !== null) {
+      message.voterId = object.voterId;
+    } else {
+      message.voterId = "";
+    }
+    if (object.disputeId !== undefined && object.disputeId !== null) {
+      message.disputeId = object.disputeId;
+    } else {
+      message.disputeId = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgDeleteVoteResponse: object = {};
+
+export const MsgDeleteVoteResponse = {
+  encode(_: MsgDeleteVoteResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgDeleteVoteResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgDeleteVoteResponse } as MsgDeleteVoteResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgDeleteVoteResponse {
+    const message = { ...baseMsgDeleteVoteResponse } as MsgDeleteVoteResponse;
+    return message;
+  },
+
+  toJSON(_: MsgDeleteVoteResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgDeleteVoteResponse>): MsgDeleteVoteResponse {
+    const message = { ...baseMsgDeleteVoteResponse } as MsgDeleteVoteResponse;
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   CreateCrow(request: MsgCreateCrow): Promise<MsgCreateCrowResponse>;
   UpdateCrow(request: MsgUpdateCrow): Promise<MsgUpdateCrowResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   DeleteCrow(request: MsgDeleteCrow): Promise<MsgDeleteCrowResponse>;
+  CreateVote(request: MsgCreateVote): Promise<MsgCreateVoteResponse>;
+  UpdateVote(request: MsgUpdateVote): Promise<MsgUpdateVoteResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  DeleteVote(request: MsgDeleteVote): Promise<MsgDeleteVoteResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -853,6 +1599,42 @@ export class MsgClientImpl implements Msg {
     );
     return promise.then((data) =>
       MsgDeleteCrowResponse.decode(new Reader(data))
+    );
+  }
+
+  CreateVote(request: MsgCreateVote): Promise<MsgCreateVoteResponse> {
+    const data = MsgCreateVote.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.escrow.Msg",
+      "CreateVote",
+      data
+    );
+    return promise.then((data) =>
+      MsgCreateVoteResponse.decode(new Reader(data))
+    );
+  }
+
+  UpdateVote(request: MsgUpdateVote): Promise<MsgUpdateVoteResponse> {
+    const data = MsgUpdateVote.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.escrow.Msg",
+      "UpdateVote",
+      data
+    );
+    return promise.then((data) =>
+      MsgUpdateVoteResponse.decode(new Reader(data))
+    );
+  }
+
+  DeleteVote(request: MsgDeleteVote): Promise<MsgDeleteVoteResponse> {
+    const data = MsgDeleteVote.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.escrow.Msg",
+      "DeleteVote",
+      data
+    );
+    return promise.then((data) =>
+      MsgDeleteVoteResponse.decode(new Reader(data))
     );
   }
 }
