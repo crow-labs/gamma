@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { Reader, Writer } from "protobufjs/minimal";
 import { Coin } from "../cosmos/base/v1beta1/coin";
+import { Vote } from "../escrow/vote";
 
 export const protobufPackage = "crowlabs.gamma.escrow";
 
@@ -110,6 +111,34 @@ export interface MsgDeleteDispute {
 }
 
 export interface MsgDeleteDisputeResponse {}
+
+export interface MsgCreateVerdict {
+  creator: string;
+  crowId: string;
+  disputeId: string;
+  voteIds: string[];
+  resultingVote: Vote | undefined;
+}
+
+export interface MsgCreateVerdictResponse {}
+
+export interface MsgUpdateVerdict {
+  creator: string;
+  crowId: string;
+  disputeId: string;
+  voteIds: string[];
+  resultingVote: Vote | undefined;
+}
+
+export interface MsgUpdateVerdictResponse {}
+
+export interface MsgDeleteVerdict {
+  creator: string;
+  crowId: string;
+  disputeId: string;
+}
+
+export interface MsgDeleteVerdictResponse {}
 
 const baseMsgCreateCrow: object = {
   creator: "",
@@ -2103,6 +2132,527 @@ export const MsgDeleteDisputeResponse = {
   },
 };
 
+const baseMsgCreateVerdict: object = {
+  creator: "",
+  crowId: "",
+  disputeId: "",
+  voteIds: "",
+};
+
+export const MsgCreateVerdict = {
+  encode(message: MsgCreateVerdict, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.crowId !== "") {
+      writer.uint32(18).string(message.crowId);
+    }
+    if (message.disputeId !== "") {
+      writer.uint32(26).string(message.disputeId);
+    }
+    for (const v of message.voteIds) {
+      writer.uint32(34).string(v!);
+    }
+    if (message.resultingVote !== undefined) {
+      Vote.encode(message.resultingVote, writer.uint32(42).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgCreateVerdict {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgCreateVerdict } as MsgCreateVerdict;
+    message.voteIds = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.crowId = reader.string();
+          break;
+        case 3:
+          message.disputeId = reader.string();
+          break;
+        case 4:
+          message.voteIds.push(reader.string());
+          break;
+        case 5:
+          message.resultingVote = Vote.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgCreateVerdict {
+    const message = { ...baseMsgCreateVerdict } as MsgCreateVerdict;
+    message.voteIds = [];
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.crowId !== undefined && object.crowId !== null) {
+      message.crowId = String(object.crowId);
+    } else {
+      message.crowId = "";
+    }
+    if (object.disputeId !== undefined && object.disputeId !== null) {
+      message.disputeId = String(object.disputeId);
+    } else {
+      message.disputeId = "";
+    }
+    if (object.voteIds !== undefined && object.voteIds !== null) {
+      for (const e of object.voteIds) {
+        message.voteIds.push(String(e));
+      }
+    }
+    if (object.resultingVote !== undefined && object.resultingVote !== null) {
+      message.resultingVote = Vote.fromJSON(object.resultingVote);
+    } else {
+      message.resultingVote = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: MsgCreateVerdict): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.crowId !== undefined && (obj.crowId = message.crowId);
+    message.disputeId !== undefined && (obj.disputeId = message.disputeId);
+    if (message.voteIds) {
+      obj.voteIds = message.voteIds.map((e) => e);
+    } else {
+      obj.voteIds = [];
+    }
+    message.resultingVote !== undefined &&
+      (obj.resultingVote = message.resultingVote
+        ? Vote.toJSON(message.resultingVote)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgCreateVerdict>): MsgCreateVerdict {
+    const message = { ...baseMsgCreateVerdict } as MsgCreateVerdict;
+    message.voteIds = [];
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.crowId !== undefined && object.crowId !== null) {
+      message.crowId = object.crowId;
+    } else {
+      message.crowId = "";
+    }
+    if (object.disputeId !== undefined && object.disputeId !== null) {
+      message.disputeId = object.disputeId;
+    } else {
+      message.disputeId = "";
+    }
+    if (object.voteIds !== undefined && object.voteIds !== null) {
+      for (const e of object.voteIds) {
+        message.voteIds.push(e);
+      }
+    }
+    if (object.resultingVote !== undefined && object.resultingVote !== null) {
+      message.resultingVote = Vote.fromPartial(object.resultingVote);
+    } else {
+      message.resultingVote = undefined;
+    }
+    return message;
+  },
+};
+
+const baseMsgCreateVerdictResponse: object = {};
+
+export const MsgCreateVerdictResponse = {
+  encode(
+    _: MsgCreateVerdictResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgCreateVerdictResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgCreateVerdictResponse,
+    } as MsgCreateVerdictResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgCreateVerdictResponse {
+    const message = {
+      ...baseMsgCreateVerdictResponse,
+    } as MsgCreateVerdictResponse;
+    return message;
+  },
+
+  toJSON(_: MsgCreateVerdictResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgCreateVerdictResponse>
+  ): MsgCreateVerdictResponse {
+    const message = {
+      ...baseMsgCreateVerdictResponse,
+    } as MsgCreateVerdictResponse;
+    return message;
+  },
+};
+
+const baseMsgUpdateVerdict: object = {
+  creator: "",
+  crowId: "",
+  disputeId: "",
+  voteIds: "",
+};
+
+export const MsgUpdateVerdict = {
+  encode(message: MsgUpdateVerdict, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.crowId !== "") {
+      writer.uint32(18).string(message.crowId);
+    }
+    if (message.disputeId !== "") {
+      writer.uint32(26).string(message.disputeId);
+    }
+    for (const v of message.voteIds) {
+      writer.uint32(34).string(v!);
+    }
+    if (message.resultingVote !== undefined) {
+      Vote.encode(message.resultingVote, writer.uint32(42).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgUpdateVerdict {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgUpdateVerdict } as MsgUpdateVerdict;
+    message.voteIds = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.crowId = reader.string();
+          break;
+        case 3:
+          message.disputeId = reader.string();
+          break;
+        case 4:
+          message.voteIds.push(reader.string());
+          break;
+        case 5:
+          message.resultingVote = Vote.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgUpdateVerdict {
+    const message = { ...baseMsgUpdateVerdict } as MsgUpdateVerdict;
+    message.voteIds = [];
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.crowId !== undefined && object.crowId !== null) {
+      message.crowId = String(object.crowId);
+    } else {
+      message.crowId = "";
+    }
+    if (object.disputeId !== undefined && object.disputeId !== null) {
+      message.disputeId = String(object.disputeId);
+    } else {
+      message.disputeId = "";
+    }
+    if (object.voteIds !== undefined && object.voteIds !== null) {
+      for (const e of object.voteIds) {
+        message.voteIds.push(String(e));
+      }
+    }
+    if (object.resultingVote !== undefined && object.resultingVote !== null) {
+      message.resultingVote = Vote.fromJSON(object.resultingVote);
+    } else {
+      message.resultingVote = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: MsgUpdateVerdict): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.crowId !== undefined && (obj.crowId = message.crowId);
+    message.disputeId !== undefined && (obj.disputeId = message.disputeId);
+    if (message.voteIds) {
+      obj.voteIds = message.voteIds.map((e) => e);
+    } else {
+      obj.voteIds = [];
+    }
+    message.resultingVote !== undefined &&
+      (obj.resultingVote = message.resultingVote
+        ? Vote.toJSON(message.resultingVote)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgUpdateVerdict>): MsgUpdateVerdict {
+    const message = { ...baseMsgUpdateVerdict } as MsgUpdateVerdict;
+    message.voteIds = [];
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.crowId !== undefined && object.crowId !== null) {
+      message.crowId = object.crowId;
+    } else {
+      message.crowId = "";
+    }
+    if (object.disputeId !== undefined && object.disputeId !== null) {
+      message.disputeId = object.disputeId;
+    } else {
+      message.disputeId = "";
+    }
+    if (object.voteIds !== undefined && object.voteIds !== null) {
+      for (const e of object.voteIds) {
+        message.voteIds.push(e);
+      }
+    }
+    if (object.resultingVote !== undefined && object.resultingVote !== null) {
+      message.resultingVote = Vote.fromPartial(object.resultingVote);
+    } else {
+      message.resultingVote = undefined;
+    }
+    return message;
+  },
+};
+
+const baseMsgUpdateVerdictResponse: object = {};
+
+export const MsgUpdateVerdictResponse = {
+  encode(
+    _: MsgUpdateVerdictResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgUpdateVerdictResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgUpdateVerdictResponse,
+    } as MsgUpdateVerdictResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgUpdateVerdictResponse {
+    const message = {
+      ...baseMsgUpdateVerdictResponse,
+    } as MsgUpdateVerdictResponse;
+    return message;
+  },
+
+  toJSON(_: MsgUpdateVerdictResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgUpdateVerdictResponse>
+  ): MsgUpdateVerdictResponse {
+    const message = {
+      ...baseMsgUpdateVerdictResponse,
+    } as MsgUpdateVerdictResponse;
+    return message;
+  },
+};
+
+const baseMsgDeleteVerdict: object = { creator: "", crowId: "", disputeId: "" };
+
+export const MsgDeleteVerdict = {
+  encode(message: MsgDeleteVerdict, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.crowId !== "") {
+      writer.uint32(18).string(message.crowId);
+    }
+    if (message.disputeId !== "") {
+      writer.uint32(26).string(message.disputeId);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgDeleteVerdict {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgDeleteVerdict } as MsgDeleteVerdict;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.crowId = reader.string();
+          break;
+        case 3:
+          message.disputeId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgDeleteVerdict {
+    const message = { ...baseMsgDeleteVerdict } as MsgDeleteVerdict;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.crowId !== undefined && object.crowId !== null) {
+      message.crowId = String(object.crowId);
+    } else {
+      message.crowId = "";
+    }
+    if (object.disputeId !== undefined && object.disputeId !== null) {
+      message.disputeId = String(object.disputeId);
+    } else {
+      message.disputeId = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgDeleteVerdict): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.crowId !== undefined && (obj.crowId = message.crowId);
+    message.disputeId !== undefined && (obj.disputeId = message.disputeId);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgDeleteVerdict>): MsgDeleteVerdict {
+    const message = { ...baseMsgDeleteVerdict } as MsgDeleteVerdict;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.crowId !== undefined && object.crowId !== null) {
+      message.crowId = object.crowId;
+    } else {
+      message.crowId = "";
+    }
+    if (object.disputeId !== undefined && object.disputeId !== null) {
+      message.disputeId = object.disputeId;
+    } else {
+      message.disputeId = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgDeleteVerdictResponse: object = {};
+
+export const MsgDeleteVerdictResponse = {
+  encode(
+    _: MsgDeleteVerdictResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgDeleteVerdictResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgDeleteVerdictResponse,
+    } as MsgDeleteVerdictResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgDeleteVerdictResponse {
+    const message = {
+      ...baseMsgDeleteVerdictResponse,
+    } as MsgDeleteVerdictResponse;
+    return message;
+  },
+
+  toJSON(_: MsgDeleteVerdictResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgDeleteVerdictResponse>
+  ): MsgDeleteVerdictResponse {
+    const message = {
+      ...baseMsgDeleteVerdictResponse,
+    } as MsgDeleteVerdictResponse;
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   CreateCrow(request: MsgCreateCrow): Promise<MsgCreateCrowResponse>;
@@ -2113,8 +2663,11 @@ export interface Msg {
   DeleteVote(request: MsgDeleteVote): Promise<MsgDeleteVoteResponse>;
   CreateDispute(request: MsgCreateDispute): Promise<MsgCreateDisputeResponse>;
   UpdateDispute(request: MsgUpdateDispute): Promise<MsgUpdateDisputeResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   DeleteDispute(request: MsgDeleteDispute): Promise<MsgDeleteDisputeResponse>;
+  CreateVerdict(request: MsgCreateVerdict): Promise<MsgCreateVerdictResponse>;
+  UpdateVerdict(request: MsgUpdateVerdict): Promise<MsgUpdateVerdictResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  DeleteVerdict(request: MsgDeleteVerdict): Promise<MsgDeleteVerdictResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -2227,6 +2780,42 @@ export class MsgClientImpl implements Msg {
     );
     return promise.then((data) =>
       MsgDeleteDisputeResponse.decode(new Reader(data))
+    );
+  }
+
+  CreateVerdict(request: MsgCreateVerdict): Promise<MsgCreateVerdictResponse> {
+    const data = MsgCreateVerdict.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.escrow.Msg",
+      "CreateVerdict",
+      data
+    );
+    return promise.then((data) =>
+      MsgCreateVerdictResponse.decode(new Reader(data))
+    );
+  }
+
+  UpdateVerdict(request: MsgUpdateVerdict): Promise<MsgUpdateVerdictResponse> {
+    const data = MsgUpdateVerdict.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.escrow.Msg",
+      "UpdateVerdict",
+      data
+    );
+    return promise.then((data) =>
+      MsgUpdateVerdictResponse.decode(new Reader(data))
+    );
+  }
+
+  DeleteVerdict(request: MsgDeleteVerdict): Promise<MsgDeleteVerdictResponse> {
+    const data = MsgDeleteVerdict.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.escrow.Msg",
+      "DeleteVerdict",
+      data
+    );
+    return promise.then((data) =>
+      MsgDeleteVerdictResponse.decode(new Reader(data))
     );
   }
 }

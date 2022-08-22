@@ -5,9 +5,10 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "escrow/params.proto";
 import "escrow/crow.proto";
-import "escrow/vote.proto";
 import "escrow/dispute.proto";
+import "escrow/verdict.proto";
 // this line is used by starport scaffolding # 1
+import "escrow/vote.proto";
 import "cosmos/base/v1beta1/coin.proto";
 import "gogoproto/gogo.proto";
 
@@ -47,6 +48,16 @@ service Query {
 	// Queries a list of Dispute items.
 	rpc DisputeAll(QueryAllDisputeRequest) returns (QueryAllDisputeResponse) {
 		option (google.api.http).get = "/crow-labs/gamma/escrow/dispute";
+	}
+
+// Queries a Verdict by index.
+	rpc Verdict(QueryGetVerdictRequest) returns (QueryGetVerdictResponse) {
+		option (google.api.http).get = "/crow-labs/gamma/escrow/verdict/{crowId}/{disputeId}";
+	}
+
+	// Queries a list of Verdict items.
+	rpc VerdictAll(QueryAllVerdictRequest) returns (QueryAllVerdictResponse) {
+		option (google.api.http).get = "/crow-labs/gamma/escrow/verdict";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -114,6 +125,25 @@ message QueryAllDisputeRequest {
 
 message QueryAllDisputeResponse {
 	repeated Dispute dispute = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetVerdictRequest {
+	  string crowId = 1;
+  string disputeId = 2;
+
+}
+
+message QueryGetVerdictResponse {
+	Verdict verdict = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllVerdictRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllVerdictResponse {
+	repeated Verdict verdict = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

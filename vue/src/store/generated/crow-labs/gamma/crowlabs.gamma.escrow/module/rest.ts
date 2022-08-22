@@ -37,17 +37,23 @@ export type EscrowMsgCreateCrowResponse = object;
 
 export type EscrowMsgCreateDisputeResponse = object;
 
+export type EscrowMsgCreateVerdictResponse = object;
+
 export type EscrowMsgCreateVoteResponse = object;
 
 export type EscrowMsgDeleteCrowResponse = object;
 
 export type EscrowMsgDeleteDisputeResponse = object;
 
+export type EscrowMsgDeleteVerdictResponse = object;
+
 export type EscrowMsgDeleteVoteResponse = object;
 
 export type EscrowMsgUpdateCrowResponse = object;
 
 export type EscrowMsgUpdateDisputeResponse = object;
+
+export type EscrowMsgUpdateVerdictResponse = object;
 
 export type EscrowMsgUpdateVoteResponse = object;
 
@@ -86,6 +92,21 @@ export interface EscrowQueryAllDisputeResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface EscrowQueryAllVerdictResponse {
+  verdict?: EscrowVerdict[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface EscrowQueryAllVoteResponse {
   vote?: EscrowVote[];
 
@@ -109,6 +130,10 @@ export interface EscrowQueryGetDisputeResponse {
   dispute?: EscrowDispute;
 }
 
+export interface EscrowQueryGetVerdictResponse {
+  verdict?: EscrowVerdict;
+}
+
 export interface EscrowQueryGetVoteResponse {
   vote?: EscrowVote;
 }
@@ -119,6 +144,14 @@ export interface EscrowQueryGetVoteResponse {
 export interface EscrowQueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: EscrowParams;
+}
+
+export interface EscrowVerdict {
+  crowId?: string;
+  disputeId?: string;
+  voteIds?: string[];
+  resultingVote?: EscrowVote;
+  creator?: string;
 }
 
 export interface EscrowVote {
@@ -510,6 +543,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryParams = (params: RequestParams = {}) =>
     this.request<EscrowQueryParamsResponse, RpcStatus>({
       path: `/crow-labs/gamma/escrow/params`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryVerdictAll
+   * @summary Queries a list of Verdict items.
+   * @request GET:/crow-labs/gamma/escrow/verdict
+   */
+  queryVerdictAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<EscrowQueryAllVerdictResponse, RpcStatus>({
+      path: `/crow-labs/gamma/escrow/verdict`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryVerdict
+   * @summary Queries a Verdict by index.
+   * @request GET:/crow-labs/gamma/escrow/verdict/{crowId}/{disputeId}
+   */
+  queryVerdict = (crowId: string, disputeId: string, params: RequestParams = {}) =>
+    this.request<EscrowQueryGetVerdictResponse, RpcStatus>({
+      path: `/crow-labs/gamma/escrow/verdict/${crowId}/${disputeId}`,
       method: "GET",
       format: "json",
       ...params,

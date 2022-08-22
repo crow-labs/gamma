@@ -6,6 +6,7 @@ import "escrow/params.proto";
 import "escrow/crow.proto";
 import "escrow/vote.proto";
 import "escrow/dispute.proto";
+import "escrow/verdict.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/crow-labs/gamma/x/escrow/types";
@@ -17,5 +18,6 @@ message GenesisState {
   repeated Crow crowList = 3 [(gogoproto.nullable) = false];
   repeated Vote voteList = 4 [(gogoproto.nullable) = false];
   repeated Dispute disputeList = 5 [(gogoproto.nullable) = false];
+  repeated Verdict verdictList = 6 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }

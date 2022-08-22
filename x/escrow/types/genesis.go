@@ -15,6 +15,7 @@ func DefaultGenesis() *GenesisState {
 		CrowList:    []Crow{},
 		VoteList:    []Vote{},
 		DisputeList: []Dispute{},
+		VerdictList: []Verdict{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -55,6 +56,16 @@ func (gs GenesisState) Validate() error {
 			return fmt.Errorf("duplicated index for dispute")
 		}
 		disputeIndexMap[index] = struct{}{}
+	}
+	// Check for duplicated index in verdict
+	verdictIndexMap := make(map[string]struct{})
+
+	for _, elem := range gs.VerdictList {
+		index := string(VerdictKey(elem.CrowId, elem.DisputeId))
+		if _, ok := verdictIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for verdict")
+		}
+		verdictIndexMap[index] = struct{}{}
 	}
 	// this line is used by starport scaffolding # genesis/types/validate
 

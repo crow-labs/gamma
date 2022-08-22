@@ -8,6 +8,7 @@ import {
 } from "../cosmos/base/query/v1beta1/pagination";
 import { Vote } from "../escrow/vote";
 import { Dispute } from "../escrow/dispute";
+import { Verdict } from "../escrow/verdict";
 
 export const protobufPackage = "crowlabs.gamma.escrow";
 
@@ -70,6 +71,24 @@ export interface QueryAllDisputeRequest {
 
 export interface QueryAllDisputeResponse {
   dispute: Dispute[];
+  pagination: PageResponse | undefined;
+}
+
+export interface QueryGetVerdictRequest {
+  crowId: string;
+  disputeId: string;
+}
+
+export interface QueryGetVerdictResponse {
+  verdict: Verdict | undefined;
+}
+
+export interface QueryAllVerdictRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllVerdictResponse {
+  verdict: Verdict[];
   pagination: PageResponse | undefined;
 }
 
@@ -1026,6 +1045,313 @@ export const QueryAllDisputeResponse = {
   },
 };
 
+const baseQueryGetVerdictRequest: object = { crowId: "", disputeId: "" };
+
+export const QueryGetVerdictRequest = {
+  encode(
+    message: QueryGetVerdictRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.crowId !== "") {
+      writer.uint32(10).string(message.crowId);
+    }
+    if (message.disputeId !== "") {
+      writer.uint32(18).string(message.disputeId);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetVerdictRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGetVerdictRequest } as QueryGetVerdictRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.crowId = reader.string();
+          break;
+        case 2:
+          message.disputeId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetVerdictRequest {
+    const message = { ...baseQueryGetVerdictRequest } as QueryGetVerdictRequest;
+    if (object.crowId !== undefined && object.crowId !== null) {
+      message.crowId = String(object.crowId);
+    } else {
+      message.crowId = "";
+    }
+    if (object.disputeId !== undefined && object.disputeId !== null) {
+      message.disputeId = String(object.disputeId);
+    } else {
+      message.disputeId = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetVerdictRequest): unknown {
+    const obj: any = {};
+    message.crowId !== undefined && (obj.crowId = message.crowId);
+    message.disputeId !== undefined && (obj.disputeId = message.disputeId);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetVerdictRequest>
+  ): QueryGetVerdictRequest {
+    const message = { ...baseQueryGetVerdictRequest } as QueryGetVerdictRequest;
+    if (object.crowId !== undefined && object.crowId !== null) {
+      message.crowId = object.crowId;
+    } else {
+      message.crowId = "";
+    }
+    if (object.disputeId !== undefined && object.disputeId !== null) {
+      message.disputeId = object.disputeId;
+    } else {
+      message.disputeId = "";
+    }
+    return message;
+  },
+};
+
+const baseQueryGetVerdictResponse: object = {};
+
+export const QueryGetVerdictResponse = {
+  encode(
+    message: QueryGetVerdictResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.verdict !== undefined) {
+      Verdict.encode(message.verdict, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetVerdictResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetVerdictResponse,
+    } as QueryGetVerdictResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.verdict = Verdict.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetVerdictResponse {
+    const message = {
+      ...baseQueryGetVerdictResponse,
+    } as QueryGetVerdictResponse;
+    if (object.verdict !== undefined && object.verdict !== null) {
+      message.verdict = Verdict.fromJSON(object.verdict);
+    } else {
+      message.verdict = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetVerdictResponse): unknown {
+    const obj: any = {};
+    message.verdict !== undefined &&
+      (obj.verdict = message.verdict
+        ? Verdict.toJSON(message.verdict)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetVerdictResponse>
+  ): QueryGetVerdictResponse {
+    const message = {
+      ...baseQueryGetVerdictResponse,
+    } as QueryGetVerdictResponse;
+    if (object.verdict !== undefined && object.verdict !== null) {
+      message.verdict = Verdict.fromPartial(object.verdict);
+    } else {
+      message.verdict = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllVerdictRequest: object = {};
+
+export const QueryAllVerdictRequest = {
+  encode(
+    message: QueryAllVerdictRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllVerdictRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllVerdictRequest } as QueryAllVerdictRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllVerdictRequest {
+    const message = { ...baseQueryAllVerdictRequest } as QueryAllVerdictRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllVerdictRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllVerdictRequest>
+  ): QueryAllVerdictRequest {
+    const message = { ...baseQueryAllVerdictRequest } as QueryAllVerdictRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllVerdictResponse: object = {};
+
+export const QueryAllVerdictResponse = {
+  encode(
+    message: QueryAllVerdictResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.verdict) {
+      Verdict.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllVerdictResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllVerdictResponse,
+    } as QueryAllVerdictResponse;
+    message.verdict = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.verdict.push(Verdict.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllVerdictResponse {
+    const message = {
+      ...baseQueryAllVerdictResponse,
+    } as QueryAllVerdictResponse;
+    message.verdict = [];
+    if (object.verdict !== undefined && object.verdict !== null) {
+      for (const e of object.verdict) {
+        message.verdict.push(Verdict.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllVerdictResponse): unknown {
+    const obj: any = {};
+    if (message.verdict) {
+      obj.verdict = message.verdict.map((e) =>
+        e ? Verdict.toJSON(e) : undefined
+      );
+    } else {
+      obj.verdict = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllVerdictResponse>
+  ): QueryAllVerdictResponse {
+    const message = {
+      ...baseQueryAllVerdictResponse,
+    } as QueryAllVerdictResponse;
+    message.verdict = [];
+    if (object.verdict !== undefined && object.verdict !== null) {
+      for (const e of object.verdict) {
+        message.verdict.push(Verdict.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -1042,6 +1368,10 @@ export interface Query {
   Dispute(request: QueryGetDisputeRequest): Promise<QueryGetDisputeResponse>;
   /** Queries a list of Dispute items. */
   DisputeAll(request: QueryAllDisputeRequest): Promise<QueryAllDisputeResponse>;
+  /** Queries a Verdict by index. */
+  Verdict(request: QueryGetVerdictRequest): Promise<QueryGetVerdictResponse>;
+  /** Queries a list of Verdict items. */
+  VerdictAll(request: QueryAllVerdictRequest): Promise<QueryAllVerdictResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -1130,6 +1460,32 @@ export class QueryClientImpl implements Query {
     );
     return promise.then((data) =>
       QueryAllDisputeResponse.decode(new Reader(data))
+    );
+  }
+
+  Verdict(request: QueryGetVerdictRequest): Promise<QueryGetVerdictResponse> {
+    const data = QueryGetVerdictRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.escrow.Query",
+      "Verdict",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetVerdictResponse.decode(new Reader(data))
+    );
+  }
+
+  VerdictAll(
+    request: QueryAllVerdictRequest
+  ): Promise<QueryAllVerdictResponse> {
+    const data = QueryAllVerdictRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.escrow.Query",
+      "VerdictAll",
+      data
+    );
+    return promise.then((data) =>
+      QueryAllVerdictResponse.decode(new Reader(data))
     );
   }
 }

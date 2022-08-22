@@ -21,6 +21,10 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	for _, elem := range genState.DisputeList {
 		k.SetDispute(ctx, elem)
 	}
+	// Set all the verdict
+	for _, elem := range genState.VerdictList {
+		k.SetVerdict(ctx, elem)
+	}
 	// this line is used by starport scaffolding # genesis/module/init
 	k.SetPort(ctx, genState.PortId)
 	// Only try to bind to port if it is not already bound, since we may already own
@@ -45,6 +49,7 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis.CrowList = k.GetAllCrow(ctx)
 	genesis.VoteList = k.GetAllVote(ctx)
 	genesis.DisputeList = k.GetAllDispute(ctx)
+	genesis.VerdictList = k.GetAllVerdict(ctx)
 	// this line is used by starport scaffolding # genesis/module/export
 
 	return genesis

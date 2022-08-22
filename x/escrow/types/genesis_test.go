@@ -50,6 +50,16 @@ func TestGenesisState_Validate(t *testing.T) {
 						CrowId: "1",
 					},
 				},
+				VerdictList: []types.Verdict{
+					{
+						CrowId:    "0",
+						DisputeId: "0",
+					},
+					{
+						CrowId:    "1",
+						DisputeId: "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
@@ -95,6 +105,22 @@ func TestGenesisState_Validate(t *testing.T) {
 					},
 					{
 						CrowId: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated verdict",
+			genState: &types.GenesisState{
+				VerdictList: []types.Verdict{
+					{
+						CrowId:    "0",
+						DisputeId: "0",
+					},
+					{
+						CrowId:    "0",
+						DisputeId: "0",
 					},
 				},
 			},

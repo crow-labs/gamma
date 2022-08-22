@@ -3,6 +3,7 @@ import { Params } from "../escrow/params";
 import { Crow } from "../escrow/crow";
 import { Vote } from "../escrow/vote";
 import { Dispute } from "../escrow/dispute";
+import { Verdict } from "../escrow/verdict";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "crowlabs.gamma.escrow";
@@ -13,8 +14,9 @@ export interface GenesisState {
   port_id: string;
   crowList: Crow[];
   voteList: Vote[];
-  /** this line is used by starport scaffolding # genesis/proto/state */
   disputeList: Dispute[];
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  verdictList: Verdict[];
 }
 
 const baseGenesisState: object = { port_id: "" };
@@ -36,6 +38,9 @@ export const GenesisState = {
     for (const v of message.disputeList) {
       Dispute.encode(v!, writer.uint32(42).fork()).ldelim();
     }
+    for (const v of message.verdictList) {
+      Verdict.encode(v!, writer.uint32(50).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -46,6 +51,7 @@ export const GenesisState = {
     message.crowList = [];
     message.voteList = [];
     message.disputeList = [];
+    message.verdictList = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -64,6 +70,9 @@ export const GenesisState = {
         case 5:
           message.disputeList.push(Dispute.decode(reader, reader.uint32()));
           break;
+        case 6:
+          message.verdictList.push(Verdict.decode(reader, reader.uint32()));
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -77,6 +86,7 @@ export const GenesisState = {
     message.crowList = [];
     message.voteList = [];
     message.disputeList = [];
+    message.verdictList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromJSON(object.params);
     } else {
@@ -100,6 +110,11 @@ export const GenesisState = {
     if (object.disputeList !== undefined && object.disputeList !== null) {
       for (const e of object.disputeList) {
         message.disputeList.push(Dispute.fromJSON(e));
+      }
+    }
+    if (object.verdictList !== undefined && object.verdictList !== null) {
+      for (const e of object.verdictList) {
+        message.verdictList.push(Verdict.fromJSON(e));
       }
     }
     return message;
@@ -131,6 +146,13 @@ export const GenesisState = {
     } else {
       obj.disputeList = [];
     }
+    if (message.verdictList) {
+      obj.verdictList = message.verdictList.map((e) =>
+        e ? Verdict.toJSON(e) : undefined
+      );
+    } else {
+      obj.verdictList = [];
+    }
     return obj;
   },
 
@@ -139,6 +161,7 @@ export const GenesisState = {
     message.crowList = [];
     message.voteList = [];
     message.disputeList = [];
+    message.verdictList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
     } else {
@@ -162,6 +185,11 @@ export const GenesisState = {
     if (object.disputeList !== undefined && object.disputeList !== null) {
       for (const e of object.disputeList) {
         message.disputeList.push(Dispute.fromPartial(e));
+      }
+    }
+    if (object.verdictList !== undefined && object.verdictList !== null) {
+      for (const e of object.verdictList) {
+        message.verdictList.push(Verdict.fromPartial(e));
       }
     }
     return message;

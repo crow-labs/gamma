@@ -1,0 +1,14 @@
+syntax = "proto3";
+package crowlabs.gamma.escrow;
+
+option go_package = "github.com/crow-labs/gamma/x/escrow/types";
+import "escrow/vote.proto"; 
+
+message Verdict {
+  string crowId = 1; 
+  string disputeId = 2; 
+  repeated string voteIds = 3; 
+  Vote resultingVote = 4; 
+  string creator = 5;
+}
+
