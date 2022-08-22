@@ -6,6 +6,7 @@ import {
   PageRequest,
   PageResponse,
 } from "../cosmos/base/query/v1beta1/pagination";
+import { Listing } from "../market/listing";
 
 export const protobufPackage = "crowlabs.gamma.market";
 
@@ -33,6 +34,24 @@ export interface QueryAllOrderRequest {
 
 export interface QueryAllOrderResponse {
   order: Order[];
+  pagination: PageResponse | undefined;
+}
+
+export interface QueryGetListingRequest {
+  prodId: string;
+  listingId: string;
+}
+
+export interface QueryGetListingResponse {
+  listing: Listing | undefined;
+}
+
+export interface QueryAllListingRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllListingResponse {
+  listing: Listing[];
   pagination: PageResponse | undefined;
 }
 
@@ -420,6 +439,313 @@ export const QueryAllOrderResponse = {
   },
 };
 
+const baseQueryGetListingRequest: object = { prodId: "", listingId: "" };
+
+export const QueryGetListingRequest = {
+  encode(
+    message: QueryGetListingRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.prodId !== "") {
+      writer.uint32(10).string(message.prodId);
+    }
+    if (message.listingId !== "") {
+      writer.uint32(18).string(message.listingId);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetListingRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGetListingRequest } as QueryGetListingRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.prodId = reader.string();
+          break;
+        case 2:
+          message.listingId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetListingRequest {
+    const message = { ...baseQueryGetListingRequest } as QueryGetListingRequest;
+    if (object.prodId !== undefined && object.prodId !== null) {
+      message.prodId = String(object.prodId);
+    } else {
+      message.prodId = "";
+    }
+    if (object.listingId !== undefined && object.listingId !== null) {
+      message.listingId = String(object.listingId);
+    } else {
+      message.listingId = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetListingRequest): unknown {
+    const obj: any = {};
+    message.prodId !== undefined && (obj.prodId = message.prodId);
+    message.listingId !== undefined && (obj.listingId = message.listingId);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetListingRequest>
+  ): QueryGetListingRequest {
+    const message = { ...baseQueryGetListingRequest } as QueryGetListingRequest;
+    if (object.prodId !== undefined && object.prodId !== null) {
+      message.prodId = object.prodId;
+    } else {
+      message.prodId = "";
+    }
+    if (object.listingId !== undefined && object.listingId !== null) {
+      message.listingId = object.listingId;
+    } else {
+      message.listingId = "";
+    }
+    return message;
+  },
+};
+
+const baseQueryGetListingResponse: object = {};
+
+export const QueryGetListingResponse = {
+  encode(
+    message: QueryGetListingResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.listing !== undefined) {
+      Listing.encode(message.listing, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetListingResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetListingResponse,
+    } as QueryGetListingResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.listing = Listing.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetListingResponse {
+    const message = {
+      ...baseQueryGetListingResponse,
+    } as QueryGetListingResponse;
+    if (object.listing !== undefined && object.listing !== null) {
+      message.listing = Listing.fromJSON(object.listing);
+    } else {
+      message.listing = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetListingResponse): unknown {
+    const obj: any = {};
+    message.listing !== undefined &&
+      (obj.listing = message.listing
+        ? Listing.toJSON(message.listing)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetListingResponse>
+  ): QueryGetListingResponse {
+    const message = {
+      ...baseQueryGetListingResponse,
+    } as QueryGetListingResponse;
+    if (object.listing !== undefined && object.listing !== null) {
+      message.listing = Listing.fromPartial(object.listing);
+    } else {
+      message.listing = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllListingRequest: object = {};
+
+export const QueryAllListingRequest = {
+  encode(
+    message: QueryAllListingRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllListingRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllListingRequest } as QueryAllListingRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllListingRequest {
+    const message = { ...baseQueryAllListingRequest } as QueryAllListingRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllListingRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllListingRequest>
+  ): QueryAllListingRequest {
+    const message = { ...baseQueryAllListingRequest } as QueryAllListingRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllListingResponse: object = {};
+
+export const QueryAllListingResponse = {
+  encode(
+    message: QueryAllListingResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.listing) {
+      Listing.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllListingResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllListingResponse,
+    } as QueryAllListingResponse;
+    message.listing = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.listing.push(Listing.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllListingResponse {
+    const message = {
+      ...baseQueryAllListingResponse,
+    } as QueryAllListingResponse;
+    message.listing = [];
+    if (object.listing !== undefined && object.listing !== null) {
+      for (const e of object.listing) {
+        message.listing.push(Listing.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllListingResponse): unknown {
+    const obj: any = {};
+    if (message.listing) {
+      obj.listing = message.listing.map((e) =>
+        e ? Listing.toJSON(e) : undefined
+      );
+    } else {
+      obj.listing = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllListingResponse>
+  ): QueryAllListingResponse {
+    const message = {
+      ...baseQueryAllListingResponse,
+    } as QueryAllListingResponse;
+    message.listing = [];
+    if (object.listing !== undefined && object.listing !== null) {
+      for (const e of object.listing) {
+        message.listing.push(Listing.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -428,6 +754,10 @@ export interface Query {
   Order(request: QueryGetOrderRequest): Promise<QueryGetOrderResponse>;
   /** Queries a list of Order items. */
   OrderAll(request: QueryAllOrderRequest): Promise<QueryAllOrderResponse>;
+  /** Queries a Listing by index. */
+  Listing(request: QueryGetListingRequest): Promise<QueryGetListingResponse>;
+  /** Queries a list of Listing items. */
+  ListingAll(request: QueryAllListingRequest): Promise<QueryAllListingResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -466,6 +796,32 @@ export class QueryClientImpl implements Query {
     );
     return promise.then((data) =>
       QueryAllOrderResponse.decode(new Reader(data))
+    );
+  }
+
+  Listing(request: QueryGetListingRequest): Promise<QueryGetListingResponse> {
+    const data = QueryGetListingRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.market.Query",
+      "Listing",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetListingResponse.decode(new Reader(data))
+    );
+  }
+
+  ListingAll(
+    request: QueryAllListingRequest
+  ): Promise<QueryAllListingResponse> {
+    const data = QueryAllListingRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "crowlabs.gamma.market.Query",
+      "ListingAll",
+      data
+    );
+    return promise.then((data) =>
+      QueryAllListingResponse.decode(new Reader(data))
     );
   }
 }

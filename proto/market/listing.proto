@@ -1,0 +1,20 @@
+syntax = "proto3";
+package crowlabs.gamma.market;
+
+option go_package = "github.com/crow-labs/gamma/x/market/types";
+import "gogoproto/gogo.proto"; 
+import "cosmos/base/v1beta1/coin.proto"; 
+
+message Listing {
+  string prodId = 1; 
+  string listingId = 2; 
+  string title = 3; 
+  string desc = 4; 
+  cosmos.base.v1beta1.Coin price = 5 [(gogoproto.nullable) = false]; 
+  string status = 6; 
+  uint64 quantity = 7; 
+  repeated string pendingOrders = 8; 
+  repeated string completedOrders = 9; 
+  string creator = 10;
+}
+

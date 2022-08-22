@@ -24,6 +24,16 @@ func TestGenesis(t *testing.T) {
 				BuyerId: "1",
 			},
 		},
+		ListingList: []types.Listing{
+			{
+				ProdId:    "0",
+				ListingId: "0",
+			},
+			{
+				ProdId:    "1",
+				ListingId: "1",
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -36,5 +46,6 @@ func TestGenesis(t *testing.T) {
 	nullify.Fill(got)
 
 	require.ElementsMatch(t, genesisState.OrderList, got.OrderList)
+	require.ElementsMatch(t, genesisState.ListingList, got.ListingList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

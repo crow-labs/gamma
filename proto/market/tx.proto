@@ -2,7 +2,10 @@ syntax = "proto3";
 package crowlabs.gamma.market;
 
 import "market/order.proto";
+import "market/listing.proto";
 // this line is used by starport scaffolding # proto/tx/import
+import "cosmos/base/v1beta1/coin.proto";
+import "gogoproto/gogo.proto";
 
 option go_package = "github.com/crow-labs/gamma/x/market/types";
 
@@ -11,6 +14,9 @@ service Msg {
       rpc CreateOrder(MsgCreateOrder) returns (MsgCreateOrderResponse);
   rpc UpdateOrder(MsgUpdateOrder) returns (MsgUpdateOrderResponse);
   rpc DeleteOrder(MsgDeleteOrder) returns (MsgDeleteOrderResponse);
+  rpc CreateListing(MsgCreateListing) returns (MsgCreateListingResponse);
+  rpc UpdateListing(MsgUpdateListing) returns (MsgUpdateListingResponse);
+  rpc DeleteListing(MsgDeleteListing) returns (MsgDeleteListingResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -42,5 +48,42 @@ message MsgDeleteOrder {
   string buyerId = 3;
 }
 message MsgDeleteOrderResponse {}
+
+message MsgCreateListing {
+  string creator = 1;
+  string prodId = 2;
+  string listingId = 3;
+
+  string title = 4;
+  string desc = 5;
+  cosmos.base.v1beta1.Coin price = 6 [(gogoproto.nullable) = false];
+  string status = 7;
+  uint64 quantity = 8;
+  repeated string pendingOrders = 9;
+  repeated string completedOrders = 10;
+}
+message MsgCreateListingResponse {}
+
+message MsgUpdateListing {
+  string creator = 1;
+  string prodId = 2;
+  string listingId = 3;
+
+  string title = 4;
+  string desc = 5;
+  cosmos.base.v1beta1.Coin price = 6 [(gogoproto.nullable) = false];
+  string status = 7;
+  uint64 quantity = 8;
+  repeated string pendingOrders = 9;
+  repeated string completedOrders = 10;
+}
+message MsgUpdateListingResponse {}
+
+message MsgDeleteListing {
+  string creator = 1;
+  string prodId = 2;
+  string listingId = 3;
+}
+message MsgDeleteListingResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message

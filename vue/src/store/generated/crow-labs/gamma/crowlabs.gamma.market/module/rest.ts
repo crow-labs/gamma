@@ -9,9 +9,37 @@
  * ---------------------------------------------------------------
  */
 
+export interface MarketListing {
+  prodId?: string;
+  listingId?: string;
+  title?: string;
+  desc?: string;
+
+  /**
+   * Coin defines a token with a denomination and an amount.
+   *
+   * NOTE: The amount field is an Int which implements the custom method
+   * signatures required by gogoproto.
+   */
+  price?: V1Beta1Coin;
+  status?: string;
+
+  /** @format uint64 */
+  quantity?: string;
+  pendingOrders?: string[];
+  completedOrders?: string[];
+  creator?: string;
+}
+
+export type MarketMsgCreateListingResponse = object;
+
 export type MarketMsgCreateOrderResponse = object;
 
+export type MarketMsgDeleteListingResponse = object;
+
 export type MarketMsgDeleteOrderResponse = object;
+
+export type MarketMsgUpdateListingResponse = object;
 
 export type MarketMsgUpdateOrderResponse = object;
 
@@ -29,6 +57,21 @@ export interface MarketOrder {
  */
 export type MarketParams = object;
 
+export interface MarketQueryAllListingResponse {
+  listing?: MarketListing[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface MarketQueryAllOrderResponse {
   order?: MarketOrder[];
 
@@ -42,6 +85,10 @@ export interface MarketQueryAllOrderResponse {
    *  }
    */
   pagination?: V1Beta1PageResponse;
+}
+
+export interface MarketQueryGetListingResponse {
+  listing?: MarketListing;
 }
 
 export interface MarketQueryGetOrderResponse {
@@ -65,6 +112,17 @@ export interface RpcStatus {
   code?: number;
   message?: string;
   details?: ProtobufAny[];
+}
+
+/**
+* Coin defines a token with a denomination and an amount.
+
+NOTE: The amount field is an Int which implements the custom method
+signatures required by gogoproto.
+*/
+export interface V1Beta1Coin {
+  denom?: string;
+  amount?: string;
 }
 
 /**
@@ -326,6 +384,48 @@ export class HttpClient<SecurityDataType = unknown> {
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryListingAll
+   * @summary Queries a list of Listing items.
+   * @request GET:/crow-labs/gamma/market/listing
+   */
+  queryListingAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<MarketQueryAllListingResponse, RpcStatus>({
+      path: `/crow-labs/gamma/market/listing`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryListing
+   * @summary Queries a Listing by index.
+   * @request GET:/crow-labs/gamma/market/listing/{prodId}/{listingId}
+   */
+  queryListing = (prodId: string, listingId: string, params: RequestParams = {}) =>
+    this.request<MarketQueryGetListingResponse, RpcStatus>({
+      path: `/crow-labs/gamma/market/listing/${prodId}/${listingId}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
   /**
    * No description
    *

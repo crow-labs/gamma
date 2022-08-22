@@ -16,12 +16,12 @@ func OrderKey(
 ) []byte {
 	var key []byte
 
-	orderIdBytes := []byte(orderId)
-	key = append(key, orderIdBytes...)
-	key = append(key, []byte("/")...)
-
 	buyerIdBytes := []byte(buyerId)
 	key = append(key, buyerIdBytes...)
+	key = append(key, []byte("/")...)
+
+	orderIdBytes := []byte(orderId)
+	key = append(key, orderIdBytes...)
 	key = append(key, []byte("/")...)
 
 	return key
