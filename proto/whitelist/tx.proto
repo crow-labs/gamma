@@ -1,13 +1,39 @@
 syntax = "proto3";
 package crowlabs.gamma.whitelist;
 
+import "whitelist/buyer_ids.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/crow-labs/gamma/x/whitelist/types";
 
 // Msg defines the Msg service.
 service Msg {
-    // this line is used by starport scaffolding # proto/tx/rpc
+      rpc CreateBuyerIds(MsgCreateBuyerIds) returns (MsgCreateBuyerIdsResponse);
+  rpc UpdateBuyerIds(MsgUpdateBuyerIds) returns (MsgUpdateBuyerIdsResponse);
+  rpc DeleteBuyerIds(MsgDeleteBuyerIds) returns (MsgDeleteBuyerIdsResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
 }
+
+message MsgCreateBuyerIds {
+  string creator = 1;
+  string accAddr = 2;
+
+  string buyerId = 3;
+}
+message MsgCreateBuyerIdsResponse {}
+
+message MsgUpdateBuyerIds {
+  string creator = 1;
+  string accAddr = 2;
+
+  string buyerId = 3;
+}
+message MsgUpdateBuyerIdsResponse {}
+
+message MsgDeleteBuyerIds {
+  string creator = 1;
+  string accAddr = 2;
+}
+message MsgDeleteBuyerIdsResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message

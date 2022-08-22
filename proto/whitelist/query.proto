@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "whitelist/params.proto";
+import "whitelist/buyer_ids.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/crow-labs/gamma/x/whitelist/types";
@@ -15,7 +16,17 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/crow-labs/gamma/whitelist/params";
   }
-  // this line is used by starport scaffolding # 2
+  // Queries a BuyerIds by index.
+	rpc BuyerIds(QueryGetBuyerIdsRequest) returns (QueryGetBuyerIdsResponse) {
+		option (google.api.http).get = "/crow-labs/gamma/whitelist/buyer_ids/{accAddr}";
+	}
+
+	// Queries a list of BuyerIds items.
+	rpc BuyerIdsAll(QueryAllBuyerIdsRequest) returns (QueryAllBuyerIdsResponse) {
+		option (google.api.http).get = "/crow-labs/gamma/whitelist/buyer_ids";
+	}
+
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -25,6 +36,24 @@ message QueryParamsRequest {}
 message QueryParamsResponse {
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetBuyerIdsRequest {
+	  string accAddr = 1;
+
+}
+
+message QueryGetBuyerIdsResponse {
+	BuyerIds buyerIds = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllBuyerIdsRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllBuyerIdsResponse {
+	repeated BuyerIds buyerIds = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3

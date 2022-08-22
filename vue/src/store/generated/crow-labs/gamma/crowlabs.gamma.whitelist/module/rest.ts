@@ -21,9 +21,96 @@ export interface RpcStatus {
 }
 
 /**
+* message SomeRequest {
+         Foo some_parameter = 1;
+         PageRequest pagination = 2;
+ }
+*/
+export interface V1Beta1PageRequest {
+  /**
+   * key is a value returned in PageResponse.next_key to begin
+   * querying the next page most efficiently. Only one of offset or key
+   * should be set.
+   * @format byte
+   */
+  key?: string;
+
+  /**
+   * offset is a numeric offset that can be used when key is unavailable.
+   * It is less efficient than using key. Only one of offset or key should
+   * be set.
+   * @format uint64
+   */
+  offset?: string;
+
+  /**
+   * limit is the total number of results to be returned in the result page.
+   * If left empty it will default to a value to be set by each app.
+   * @format uint64
+   */
+  limit?: string;
+
+  /**
+   * count_total is set to true  to indicate that the result set should include
+   * a count of the total number of items available for pagination in UIs.
+   * count_total is only respected when offset is used. It is ignored when key
+   * is set.
+   */
+  count_total?: boolean;
+}
+
+/**
+* PageResponse is to be embedded in gRPC response messages where the
+corresponding request message has used PageRequest.
+
+ message SomeResponse {
+         repeated Bar results = 1;
+         PageResponse page = 2;
+ }
+*/
+export interface V1Beta1PageResponse {
+  /** @format byte */
+  next_key?: string;
+
+  /** @format uint64 */
+  total?: string;
+}
+
+export interface WhitelistBuyerIds {
+  accAddr?: string;
+  buyerId?: string;
+  creator?: string;
+}
+
+export type WhitelistMsgCreateBuyerIdsResponse = object;
+
+export type WhitelistMsgDeleteBuyerIdsResponse = object;
+
+export type WhitelistMsgUpdateBuyerIdsResponse = object;
+
+/**
  * Params defines the parameters for the module.
  */
 export type WhitelistParams = object;
+
+export interface WhitelistQueryAllBuyerIdsResponse {
+  buyerIds?: WhitelistBuyerIds[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
+export interface WhitelistQueryGetBuyerIdsResponse {
+  buyerIds?: WhitelistBuyerIds;
+}
 
 /**
  * QueryParamsResponse is response type for the Query/Params RPC method.
@@ -225,10 +312,51 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title whitelist/genesis.proto
+ * @title whitelist/buyer_ids.proto
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryBuyerIdsAll
+   * @summary Queries a list of BuyerIds items.
+   * @request GET:/crow-labs/gamma/whitelist/buyer_ids
+   */
+  queryBuyerIdsAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<WhitelistQueryAllBuyerIdsResponse, RpcStatus>({
+      path: `/crow-labs/gamma/whitelist/buyer_ids`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryBuyerIds
+   * @summary Queries a BuyerIds by index.
+   * @request GET:/crow-labs/gamma/whitelist/buyer_ids/{accAddr}
+   */
+  queryBuyerIds = (accAddr: string, params: RequestParams = {}) =>
+    this.request<WhitelistQueryGetBuyerIdsResponse, RpcStatus>({
+      path: `/crow-labs/gamma/whitelist/buyer_ids/${accAddr}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
   /**
    * No description
    *

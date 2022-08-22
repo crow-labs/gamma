@@ -1,0 +1,11 @@
+syntax = "proto3";
+package crowlabs.gamma.whitelist;
+
+option go_package = "github.com/crow-labs/gamma/x/whitelist/types";
+
+message BuyerIds {
+  string accAddr = 1; 
+  string buyerId = 2; 
+  string creator = 3;
+}
+

@@ -4,9 +4,15 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
+import { MsgCreateBuyerIds } from "./types/whitelist/tx";
+import { MsgUpdateBuyerIds } from "./types/whitelist/tx";
+import { MsgDeleteBuyerIds } from "./types/whitelist/tx";
 
 
 const types = [
+  ["/crowlabs.gamma.whitelist.MsgCreateBuyerIds", MsgCreateBuyerIds],
+  ["/crowlabs.gamma.whitelist.MsgUpdateBuyerIds", MsgUpdateBuyerIds],
+  ["/crowlabs.gamma.whitelist.MsgDeleteBuyerIds", MsgDeleteBuyerIds],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -39,6 +45,9 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
+    msgCreateBuyerIds: (data: MsgCreateBuyerIds): EncodeObject => ({ typeUrl: "/crowlabs.gamma.whitelist.MsgCreateBuyerIds", value: MsgCreateBuyerIds.fromPartial( data ) }),
+    msgUpdateBuyerIds: (data: MsgUpdateBuyerIds): EncodeObject => ({ typeUrl: "/crowlabs.gamma.whitelist.MsgUpdateBuyerIds", value: MsgUpdateBuyerIds.fromPartial( data ) }),
+    msgDeleteBuyerIds: (data: MsgDeleteBuyerIds): EncodeObject => ({ typeUrl: "/crowlabs.gamma.whitelist.MsgDeleteBuyerIds", value: MsgDeleteBuyerIds.fromPartial( data ) }),
     
   };
 };
