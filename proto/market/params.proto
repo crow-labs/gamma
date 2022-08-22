@@ -1,0 +1,12 @@
+syntax = "proto3";
+package crowlabs.gamma.market;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/crow-labs/gamma/x/market/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+  
+}
