@@ -1,0 +1,14 @@
+syntax = "proto3";
+package crowlabs.gamma.market;
+
+option go_package = "github.com/crow-labs/gamma/x/market/types";
+
+message Order {
+  string orderId = 1; 
+  string buyerId = 2; 
+  string listId = 3; 
+  string price = 4; 
+  string status = 5; 
+  string creator = 6;
+}
+

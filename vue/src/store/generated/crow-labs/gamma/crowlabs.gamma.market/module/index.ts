@@ -4,9 +4,15 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
+import { MsgCreateOrder } from "./types/market/tx";
+import { MsgUpdateOrder } from "./types/market/tx";
+import { MsgDeleteOrder } from "./types/market/tx";
 
 
 const types = [
+  ["/crowlabs.gamma.market.MsgCreateOrder", MsgCreateOrder],
+  ["/crowlabs.gamma.market.MsgUpdateOrder", MsgUpdateOrder],
+  ["/crowlabs.gamma.market.MsgDeleteOrder", MsgDeleteOrder],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -39,6 +45,9 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
+    msgCreateOrder: (data: MsgCreateOrder): EncodeObject => ({ typeUrl: "/crowlabs.gamma.market.MsgCreateOrder", value: MsgCreateOrder.fromPartial( data ) }),
+    msgUpdateOrder: (data: MsgUpdateOrder): EncodeObject => ({ typeUrl: "/crowlabs.gamma.market.MsgUpdateOrder", value: MsgUpdateOrder.fromPartial( data ) }),
+    msgDeleteOrder: (data: MsgDeleteOrder): EncodeObject => ({ typeUrl: "/crowlabs.gamma.market.MsgDeleteOrder", value: MsgDeleteOrder.fromPartial( data ) }),
     
   };
 };
